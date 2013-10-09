@@ -1,0 +1,15 @@
+{
+    "name": "sizuhiko/fabricate",
+    "type": "cakephp-plugin",
+    "description": "CakePHP data generator for Testing",
+    "authors": [
+        {
+            "name": "sizuhiko",
+            "email": "sizuhiko@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    }
+}
