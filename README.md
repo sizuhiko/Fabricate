@@ -7,7 +7,7 @@ It's inspired on [Fabrication](https://github.com/paulelliott/fabrication) from 
 
 Fabricate is a simple fake object generation plugin for CakePHP.
 Quickly Fabricate objects as needed anywhere in your app or test case.
-Generation method cited FixtureTask of CakePHP.
+Generation method(Lib/Fabricate#_generateRecords()) cited FixtureTask of CakePHP.
 
 ## Install 
 
@@ -37,13 +37,19 @@ Add bootstrap
 		return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
 	});
 
-	=> [0]["id"=>1, "author_id"=>1, "title"=>"Lorem ipsum dolor sit amet",
-			"body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-			"published"=>"Lorem ipsum dolor sit ame","created"=>"2013-10-09 12:40:28","updated"=>"2013-10-09 12:40:28"]
-	   [1][id"=>2, "author_id"=>2, .....],
-	   ....
-	   [9][id"=>10, "author_id"=>10, .....]
-
+	// $results is followings :
+	array (
+	  0 => 
+	  array (
+	    'id' => 1,
+	    'title' => 'Lorem ipsum dolor sit amet',
+	    'body' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+	    'created' => '2013-10-09 12:40:28',
+	    'updated' => '2013-10-09 12:40:28',
+	  ),
+	  1 => 
+	  array (
+	  ....
 
 ### Generate a model instance (not saved)
 
@@ -58,10 +64,33 @@ Add bootstrap
 		return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
 	});
 
+	// $results is followings :
+	AppModel::__set_state(array(
+	   'useDbConfig' => 'default',
+	   'useTable' => 'posts',
+	   'id' => 1,
+	   'data' => 
+	  array (
+	    'Post' => 
+	 ......
+
+### Generate records to database
+
+`Fabricate::create(:model_name, :number_of_generation, :callback)` generate and save records to database.
+
+* model_name: CakePHP Model class name.
+* number_of_generation: Generated number of records
+* callback: it can overwrite each generated attributes
+
+#### Example
+
+	Fabricate::create('Post', 10, function($data){
+		return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
+	});
 
 
+## Contributing to this Plugin
 
-## Any examples and contributes, any more...
-
-TODO: writting...
+Please feel free to contribute to the plugin with new issues, requests, unit tests and code fixes or new features.
+If you want to contribute some code, create a feature branch from develop, and send us your pull request.
 
