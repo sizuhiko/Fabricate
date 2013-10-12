@@ -5,17 +5,60 @@ CakePHP data generator for Testing
 
 It's inspired on [Fabrication](https://github.com/paulelliott/fabrication) from the Ruby world.
 
+Fabricate is a simple fake object generation plugin for CakePHP.
+Quickly Fabricate objects as needed anywhere in your app or test case.
+Generation method cited FixtureTask of CakePHP.
+
 ## Install 
 
-Add your composer.json
+Add require-dev in your composer.json
 
-    sizuhiko/fabricate
+`composer require --dev sizuhiko/fabricate`
+
+
+Add bootstrap
+
+`CakePlugin::load('Fabricate');`
+
 
 ## Usage
 
-Please see the Test code.
+### Generate model attributes as array (not saved)
 
-Test/Lib/FabricateTest.php
+`Fabricate::attributes_for(:model_name, :number_of_generation, :callback)` generate only attributes.
+
+* model_name: CakePHP Model class name.
+* number_of_generation: Generated number of records
+* callback: it can overwrite each generated attributes
+
+#### Example
+
+	$results = Fabricate::attributes_for('Post', 10, function($data){
+		return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
+	});
+
+	=> [0]["id"=>1, "author_id"=>1, "title"=>"Lorem ipsum dolor sit amet",
+			"body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
+			"published"=>"Lorem ipsum dolor sit ame","created"=>"2013-10-09 12:40:28","updated"=>"2013-10-09 12:40:28"]
+	   [1][id"=>2, "author_id"=>2, .....],
+	   ....
+	   [9][id"=>10, "author_id"=>10, .....]
+
+
+### Generate a model instance (not saved)
+
+`Fabricate::build(:model_name, :callback)` generate a model instance (using ClassRegistry::init).
+
+* model_name: CakePHP Model class name.
+* callback: it can overwrite each generated attributes
+
+#### Example
+
+	$result = Fabricate::build('Post', function($data){
+		return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
+	});
+
+
 
 
 ## Any examples and contributes, any more...
