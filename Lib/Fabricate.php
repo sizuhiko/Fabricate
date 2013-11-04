@@ -1,10 +1,39 @@
 <?php
+App::uses('FabricateConfig', 'Fabricate.Lib');
 
 /**
  * Fabricator for CakePHP model.
  * This is inspired RSpec fablicator.
  */
 class Fabricate {
+	private static $_instance = null;
+	private $config;
+
+	/**
+	 * Return Fabricator instance
+	 */
+	private static function getInstance() {
+		if(self::$_instance == null) {
+			self::$_instance = new Fabricate();
+		}
+		return self::$_instance;
+	}
+
+	/**
+	 * Override constructor.
+	 */
+	public function __construct() {
+       $this->config = new FabricateConfig();
+   }
+
+	/**
+	 * To override these settings
+	 * @param $callback($config) can override $config(class of FabricateConfig) attributes 
+	 */
+	public static function config($callback) {
+		$callback(self::getInstance()->config);
+	}
+
 	/**
 	 * Create and Save fablicated model data to database.
 	 * @param $modelName string Model Name.
@@ -41,7 +70,7 @@ class Fabricate {
 			$recordCount = 1;
 		}
 		$model = ClassRegistry::init($modelName);
-		$results = self::_generateRecords($model->schema(), $recordCount, $callback);
+		$results = self::getInstance()->_generateRecords($model->schema(), $recordCount, $callback);
 		return $results;
 	}
 
@@ -52,7 +81,7 @@ class Fabricate {
 	 * @param integer $recordCount
 	 * @return array Array of records.
 	 */
-	private static function _generateRecords($tableInfo, $recordCount = 1, $callback) {
+	private function _generateRecords($tableInfo, $recordCount = 1, $callback) {
 		$records = array();
 		for ($i = 0; $i < $recordCount; $i++) {
 			$record = array();
@@ -64,7 +93,7 @@ class Fabricate {
 				switch ($fieldInfo['type']) {
 					case 'integer':
 					case 'float':
-						$insert = $i + 1;
+						$insert = $this->config->sequence_start + $i;
 						break;
 					case 'string':
 					case 'binary':

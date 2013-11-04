@@ -118,4 +118,14 @@ class FabricateTest extends CakeTestCase {
 		$this->assertEquals($expected, $results[4]['Post']);
 	}
 
+	public function testConfigureSequenceStart() {
+		Fabricate::config(function($config) {
+			$config->sequence_start = 100;
+		});
+		$results = Fabricate::attributes_for('Post', 10);
+		$this->assertEquals(100, $results[0]['id']);
+		$this->assertEquals(109, $results[9]['id']);
+	}
+
+
 }
