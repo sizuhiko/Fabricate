@@ -127,5 +127,22 @@ class FabricateTest extends CakeTestCase {
 		$this->assertEquals(109, $results[9]['id']);
 	}
 
+	public function testCreateUsingSequence() {
+		Fabricate::config(function($config) {
+			$config->sequence_start = 100;
+		});
+		$results = Fabricate::attributes_for('Post', 10, function($data, $world){
+			return [
+				'id'=> $world->sequence('id'),
+				'title'=> $world->sequence('title', 1, function($i){ return "Title {$i}"; })
+			];
+		});
+		$this->assertEquals(100, $results[0]['id']);
+		$this->assertEquals('Title 1', $results[0]['title']);
+		$this->assertEquals(109, $results[9]['id']);
+		$this->assertEquals('Title 10', $results[9]['title']);
+	}
+
+
 
 }

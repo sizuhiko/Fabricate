@@ -82,6 +82,7 @@ class Fabricate {
 	 * @return array Array of records.
 	 */
 	private function _generateRecords($tableInfo, $recordCount = 1, $callback) {
+		$world = new FabricateContext($this->config);
 		$records = array();
 		for ($i = 0; $i < $recordCount; $i++) {
 			$record = array();
@@ -138,7 +139,7 @@ class Fabricate {
 				$record[$field] = $insert;
 			}
 			if(is_callable($callback)) {
-				$record = array_merge($record, $callback($record));
+				$record = array_merge($record, $callback($record, $world));
 			} else if(is_array($callback)) {
 				$record = array_merge($record, $callback);
 			}

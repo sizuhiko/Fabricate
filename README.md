@@ -111,6 +111,66 @@ The hash will overwrite any fields defined in the callback function.
 		return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
 	});
 
+## Sequences
+
+A sequence allows you to get a series of numbers unique within the each generation function. Fabrication provides you with an easy and flexible means for keeping track of sequences.
+
+### Config
+
+Allows you to specify the default starting number for all sequences. 
+This can still be overridden for specific sequences.
+
+	Fabricate::config(function($config) {
+		$config->sequence_start = 100;
+	});
+
+### Usage
+
+	Fabricate::config(function($config) {
+		$config->sequence_start = 100;
+	});
+	$results = Fabricate::attributes_for('Post', 10, function($data, $world){
+		return [
+			'id'=> $world->sequence('id'),
+			'title'=> $world->sequence('title', 1, function($i){ return "Title {$i}"; })
+		];
+	});
+
+	// $results is followings :
+	array (
+	  0 => 
+	  array (
+	    'id' => 100,           // starting configure sequence
+	    'title' => 'Title 1',  // closure function returned 
+	    ...
+	  ),
+	  1 => 
+	  array (
+	    'id' => 101,           // starting configure sequence
+	    'title' => 'Title 2',  // closure function returned 
+	    ...
+
+
+If you want use sequence within generation function, callback has second attribute.
+`$world` is FabricateContext instance. It have sequence method.
+
+### FabricateContext#sequence API
+
+You should set name argument to sequence.
+
+	$world->sequence('id')
+
+If you want to specify the starting number, you can do it with a second parameter.
+It will always return the seed number on the first call and it will be ignored with subsequent calls.
+
+	$world->sequence('id', 10)
+
+If you are generating something like an email address, you can pass it a callback function and the callback function response will be returned.
+
+	$world->sequence('title', function($i){ return "Title {$i}"; }
+	// or with start number
+	$world->sequence('title', 1, function($i){ return "Title {$i}"; }
+
 
 ## Contributing to this Plugin
 
