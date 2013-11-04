@@ -1,5 +1,6 @@
 <?php
 App::uses('FabricateConfig', 'Fabricate.Lib');
+App::uses('FabricateContext', 'Fabricate.Lib');
 
 /**
  * Fabricator for CakePHP model.
