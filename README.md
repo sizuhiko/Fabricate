@@ -165,7 +165,7 @@ It will always return the seed number on the first call and it will be ignored w
 
 	$world->sequence('id', 10)
 
-If you are generating something like an email address, you can pass it a callback function and the callback function response will be returned.
+If you are generating something like an unique string, you can pass it a callback function and the callback function response will be returned.
 
 	$world->sequence('title', function($i){ return "Title {$i}"; }
 	// or with start number
