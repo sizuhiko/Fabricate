@@ -38,7 +38,7 @@ class FabricateContext {
 			$start = null;
 		}
 		if(!array_key_exists($name, $this->sequences)) {
-			if($start == null) {
+			if($start === null) {
 				$start = $this->config->sequence_start;
 			}
 			$this->sequences[$name] = new FabricateSequence($start);

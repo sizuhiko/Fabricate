@@ -46,7 +46,7 @@ class Fabricate {
 		$model = ClassRegistry::init($modelName);
 		foreach ($attributes as $data) {
 			$model->create($data);
-			$model->save();
+			$model->save(null, self::getInstance()->config->auto_validate);
 		}
 	}
 	/**
