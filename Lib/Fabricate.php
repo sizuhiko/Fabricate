@@ -1,6 +1,8 @@
 <?php
 App::uses('FabricateConfig', 'Fabricate.Lib');
 App::uses('FabricateContext', 'Fabricate.Lib');
+App::uses('FabricateRegistry', 'Fabricate.Lib');
+App::uses('FabricateFactory', 'Fabricate.Lib/Factory');
 
 /**
  * Fabricator for CakePHP model.
@@ -9,6 +11,7 @@ App::uses('FabricateContext', 'Fabricate.Lib');
 class Fabricate {
 	private static $_instance = null;
 	private $config;
+	private $registry;
 
 	/**
 	 * Return Fabricator instance
@@ -16,6 +19,8 @@ class Fabricate {
 	private static function getInstance() {
 		if(self::$_instance == null) {
 			self::$_instance = new Fabricate();
+			self::$_instance->config = new FabricateConfig();
+			self::$_instance->registry = new FabricateRegistry('Fabricate');
 		}
 		return self::$_instance;
 	}
@@ -24,7 +29,6 @@ class Fabricate {
 	 * Override constructor.
 	 */
 	public function __construct() {
-       $this->config = new FabricateConfig();
 	}
 
 	/**
@@ -43,11 +47,8 @@ class Fabricate {
 	 */
 	public static function create($modelName, $recordCount=1, $callback = null) {
 		$attributes = self::attributes_for($modelName, $recordCount, $callback);
-		$model = ClassRegistry::init($modelName);
-		foreach ($attributes as $data) {
-			$model->create($data);
-			$model->save(null, self::getInstance()->config->auto_validate);
-		}
+		$factory = self::factory($modelName);
+		return $factory->create($attributes, $recordCount, $callback);
 	}
 	/**
 	 * Only create a model instance.
@@ -57,9 +58,8 @@ class Fabricate {
 	 */
 	public static function build($modelName, $callback = null) {
 		$data = self::attributes_for($modelName, 1, $callback);
-		$model = ClassRegistry::init($modelName);
-		$model->create($data[0]);
-		return $model;
+		$factory = self::factory($modelName);
+		return $factory->build($data, $callback);
 	}
 	/**
 	 * Only create model attributes array.
@@ -70,84 +70,13 @@ class Fabricate {
 			$callback = $recordCount;
 			$recordCount = 1;
 		}
-		$model = ClassRegistry::init($modelName);
-		$results = self::getInstance()->_generateRecords($model->schema(), $recordCount, $callback);
-		return $results;
+		$factory = self::factory($modelName);
+		return $factory->attributes_for($recordCount, $callback);
 	}
 
-	/**
-	 * Generate String representation of Records
-	 *
-	 * @param array $tableInfo Table schema array
-	 * @param integer $recordCount
-	 * @return array Array of records.
-	 */
-	private function _generateRecords($tableInfo, $recordCount = 1, $callback) {
-		$world = new FabricateContext($this->config);
-		$records = array();
-		for ($i = 0; $i < $recordCount; $i++) {
-			$record = array();
-			foreach ($tableInfo as $field => $fieldInfo) {
-				if (empty($fieldInfo['type'])) {
-					continue;
-				}
-				$insert = '';
-				switch ($fieldInfo['type']) {
-					case 'integer':
-					case 'float':
-						$insert = $this->config->sequence_start + $i;
-						break;
-					case 'string':
-					case 'binary':
-						$isPrimaryUuid = (
-							isset($fieldInfo['key']) && strtolower($fieldInfo['key']) === 'primary' &&
-							isset($fieldInfo['length']) && $fieldInfo['length'] == 36
-						);
-						if ($isPrimaryUuid) {
-							$insert = String::uuid();
-						} else {
-							$insert = "Lorem ipsum dolor sit amet";
-							if (!empty($fieldInfo['length'])) {
-								$insert = substr($insert, 0, (int)$fieldInfo['length'] - 2);
-							}
-						}
-						break;
-					case 'timestamp':
-						$insert = time();
-						break;
-					case 'datetime':
-						$insert = date('Y-m-d H:i:s');
-						break;
-					case 'date':
-						$insert = date('Y-m-d');
-						break;
-					case 'time':
-						$insert = date('H:i:s');
-						break;
-					case 'boolean':
-						$insert = 1;
-						break;
-					case 'text':
-						$insert = "Lorem ipsum dolor sit amet, aliquet feugiat.";
-						$insert .= " Convallis morbi fringilla gravida,";
-						$insert .= " phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin";
-						$insert .= " venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla";
-						$insert .= " vestibulum massa neque ut et, id hendrerit sit,";
-						$insert .= " feugiat in taciti enim proin nibh, tempor dignissim, rhoncus";
-						$insert .= " duis vestibulum nunc mattis convallis.";
-						break;
-				}
-				$record[$field] = $insert;
-			}
-			if(is_callable($callback)) {
-				$record = array_merge($record, $callback($record, $world));
-			} else if(is_array($callback)) {
-				$record = array_merge($record, $callback);
-			}
-			$records[] = $record;
-		}
-		return $records;
+	private static function factory($name) {
+		$factory = FabricateFactory::create(self::getInstance()->registry->find($name));
+		$factory->setConfig(self::getInstance()->config);
+		return $factory;
 	}
-
-
 }
