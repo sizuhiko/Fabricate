@@ -25,7 +25,7 @@ class Fabricate {
 	 */
 	public function __construct() {
        $this->config = new FabricateConfig();
-   }
+	}
 
 	/**
 	 * To override these settings
