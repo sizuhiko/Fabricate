@@ -18,4 +18,9 @@ class FabricateDefinitionTest extends CakeTestCase {
 		$target = new FabricateDefinition(['name'=>'jiro']);
 		$this->assertEquals(['name'=>'jiro'], $target->run(['name'=>'taro'], 'world'));
 	}
+
+	public function testRunNullDefinition() {
+		$target = new FabricateDefinition(null);
+		$this->assertEquals([], $target->run(['name'=>'taro'], 'world'));
+	}
 }

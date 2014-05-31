@@ -8,19 +8,19 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 		$this->model = $model;
 	}
 
-	public function create($attributes, $recordCount=1, $callback = null) {
+	public function create($attributes, $recordCount, $definition) {
 		foreach ($attributes as $data) {
 			$this->model->create($data);
 			$this->model->save(null, $this->config->auto_validate);
 		}
 		return $this->model;
 	}
-	public function build($data, $callback = null) {
+	public function build($data, $definition) {
 		$this->model->create($data[0]);
 		return $this->model;
 	}
-	public function attributes_for($recordCount=1, $callback = null) {
-		return $this->_generateRecords($this->model->schema(), $recordCount, $callback);
+	public function attributes_for($recordCount, $definition) {
+		return $this->_generateRecords($this->model->schema(), $recordCount, $definition);
 	}
 
 	protected function fakeRecord($tableInfo, $index) {

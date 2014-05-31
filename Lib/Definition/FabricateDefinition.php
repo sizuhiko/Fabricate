@@ -14,6 +14,7 @@ class FabricateDefinition {
 	}
 
 	public function run($data, $world) {
+		$result = [];
 		if(is_callable($this->define)) {
 			$callback = $this->define;
 			$result = $callback($data, $world);

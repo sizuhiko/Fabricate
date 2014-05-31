@@ -3,6 +3,7 @@ App::uses('FabricateConfig', 'Fabricate.Lib');
 App::uses('FabricateContext', 'Fabricate.Lib');
 App::uses('FabricateRegistry', 'Fabricate.Lib');
 App::uses('FabricateFactory', 'Fabricate.Lib/Factory');
+App::uses('FabricateDefinition', 'Fabricate.Lib/Definition');
 
 /**
  * Fabricator for CakePHP model.
@@ -48,7 +49,9 @@ class Fabricate {
 	public static function create($modelName, $recordCount=1, $callback = null) {
 		$attributes = self::attributes_for($modelName, $recordCount, $callback);
 		$factory = self::factory($modelName);
-		return $factory->create($attributes, $recordCount, $callback);
+		$definition = self::definition($recordCount, $callback);
+		$recordCount = self::recordCount($recordCount);
+		return $factory->create($attributes, $recordCount, $definition);
 	}
 	/**
 	 * Only create a model instance.
@@ -59,24 +62,37 @@ class Fabricate {
 	public static function build($modelName, $callback = null) {
 		$data = self::attributes_for($modelName, 1, $callback);
 		$factory = self::factory($modelName);
-		return $factory->build($data, $callback);
+		$definition = self::definition(1, $callback);
+		return $factory->build($data, $definition);
 	}
 	/**
 	 * Only create model attributes array.
 	 * @return array model attributes array.
 	 */
 	public static function attributes_for($modelName, $recordCount=1, $callback = null) {
-		if(is_callable($recordCount) || is_array($recordCount)) {
-			$callback = $recordCount;
-			$recordCount = 1;
-		}
 		$factory = self::factory($modelName);
-		return $factory->attributes_for($recordCount, $callback);
+		$definition = self::definition($recordCount, $callback);
+		$recordCount = self::recordCount($recordCount);
+		return $factory->attributes_for($recordCount, $definition);
 	}
 
 	private static function factory($name) {
 		$factory = FabricateFactory::create(self::getInstance()->registry->find($name));
 		$factory->setConfig(self::getInstance()->config);
 		return $factory;
+	}
+
+	private static function recordCount($recordCount) {
+		if(is_callable($recordCount) || is_array($recordCount)) {
+			$recordCount = 1;
+		}
+		return $recordCount;
+	}
+
+	private static function definition($recordCount, $callback) {
+		if(is_callable($recordCount) || is_array($recordCount)) {
+			$callback = $recordCount;
+		}
+		return new FabricateDefinition($callback);
 	}
 }
