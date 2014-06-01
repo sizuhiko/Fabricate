@@ -188,4 +188,10 @@ class FabricateTest extends CakeTestCase {
 		$this->assertEquals(1, $results[0]['Post']['id']);
 	}
 
+	public function testDefineNameOnlyOption() {
+		Fabricate::define('Post', ['published'=>'1']);
+		$results = Fabricate::attributes_for('Post');
+		$this->assertEquals('1', $results[0]['published']);
+	}
+
 }
