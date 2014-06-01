@@ -13,6 +13,7 @@ class Fabricate {
 	private static $_instance = null;
 	private $config;
 	private $registry;
+	private $factory;
 
 	/**
 	 * Return Fabricator instance
@@ -48,10 +49,10 @@ class Fabricate {
 	 */
 	public static function create($modelName, $recordCount=1, $callback = null) {
 		$attributes = self::attributes_for($modelName, $recordCount, $callback);
-		$factory = self::factory($modelName);
-		$definition = self::definition($recordCount, $callback);
-		$recordCount = self::recordCount($recordCount);
-		return $factory->create($attributes, $recordCount, $definition);
+		$instance = self::getInstance();
+		$definition = $instance->definition($recordCount, $callback);
+		$recordCount = $instance->recordCount($recordCount);
+		return $instance->factory->create($attributes, $recordCount, $definition);
 	}
 	/**
 	 * Only create a model instance.
@@ -61,35 +62,36 @@ class Fabricate {
 	 */
 	public static function build($modelName, $callback = null) {
 		$data = self::attributes_for($modelName, 1, $callback);
-		$factory = self::factory($modelName);
-		$definition = self::definition(1, $callback);
-		return $factory->build($data, $definition);
+		$instance = self::getInstance();
+		$definition = $instance->definition(1, $callback);
+		return $instance->factory->build($data, $definition);
 	}
 	/**
 	 * Only create model attributes array.
 	 * @return array model attributes array.
 	 */
 	public static function attributes_for($modelName, $recordCount=1, $callback = null) {
-		$factory = self::factory($modelName);
-		$definition = self::definition($recordCount, $callback);
-		$recordCount = self::recordCount($recordCount);
-		return $factory->attributes_for($recordCount, $definition);
+		$instance = self::getInstance();
+		$instance->factory = $instance->factory($modelName);
+		$definition = $instance->definition($recordCount, $callback);
+		$recordCount = $instance->recordCount($recordCount);
+		return $instance->factory->attributes_for($recordCount, $definition);
 	}
 
-	private static function factory($name) {
+	private function factory($name) {
 		$factory = FabricateFactory::create(self::getInstance()->registry->find($name));
 		$factory->setConfig(self::getInstance()->config);
 		return $factory;
 	}
 
-	private static function recordCount($recordCount) {
+	private function recordCount($recordCount) {
 		if(is_callable($recordCount) || is_array($recordCount)) {
 			$recordCount = 1;
 		}
 		return $recordCount;
 	}
 
-	private static function definition($recordCount, $callback) {
+	private function definition($recordCount, $callback) {
 		if(is_callable($recordCount) || is_array($recordCount)) {
 			$callback = $recordCount;
 		}
