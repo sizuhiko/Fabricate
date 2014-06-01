@@ -53,7 +53,7 @@ class FabricateRegistry {
 	 * @param string $name
 	 * @return boolean
 	 */
-	private function is_registered($name) {
+	public function is_registered($name) {
 		return array_key_exists($name, $this->items);
 	}
 }

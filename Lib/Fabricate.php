@@ -78,6 +78,39 @@ class Fabricate {
 		return $instance->factory->attributes_for($recordCount, $definition);
 	}
 
+	/**
+	 * @param mixed $name
+	 * @param mixed $define
+	 */
+	public static function define($name, $define) {
+		$instance = self::getInstance();
+		$parent = false;
+		$base   = false;
+		if(is_array($name)) {
+			$parent = array_key_exists('parent', $name)?$name['parent']:false;
+			$base   = array_key_exists('class', $name)?$name['class']:false;
+			$name   = $name[0]; 
+		}
+		if(empty($name)) {
+			throw new InvalidArgumentException("name is empty");
+		}
+		if($parent && !$instance->registry->is_registered($parent)) {
+			throw new InvalidArgumentException("parent `{$parent}` is not registered");
+		}
+		if($base && in_array(ClassRegistry::init($base, true),[false, null])) {
+			throw new InvalidArgumentException("class `{$base}` is not found");
+		}
+		if(!$parent && !$base) {
+			$base = $name;
+		}
+		$definition = new FabricateDefinition($define);
+		$definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent)):false;
+		$definition->parent = $base?FabricateFactory::create(ClassRegistry::init($base)):$definition->parent;
+		$definition->parent->setConfig(self::getInstance()->config);
+
+		$instance->registry->register($name, $definition);
+	}
+
 	private function factory($name) {
 		$factory = FabricateFactory::create(self::getInstance()->registry->find($name));
 		$factory->setConfig(self::getInstance()->config);

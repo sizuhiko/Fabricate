@@ -5,6 +5,7 @@
  */
 class FabricateDefinition {
 	private $define = false;
+	public $parent = false;
 
 	/**
 	 * @param mixed $define callback or attributes

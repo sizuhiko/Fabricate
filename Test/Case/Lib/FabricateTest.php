@@ -143,6 +143,34 @@ class FabricateTest extends CakeTestCase {
 		$this->assertEquals('Title 10', $results[9]['title']);
 	}
 
+	/**
+	 * @dataProvider exampleInvalidDefineParameter
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testDefineThrowExceptionIfInvalidParameter($name, $case) {
+		Fabricate::define($name, ['title'=>'title'], $case);
+	}
+	public function exampleInvalidDefineParameter() {
+		return [
+			['', 'Empty name'],
+			[['', 'class'=>'Post'], 'Empty name'],
+			[['Test', 'parent'=>'NotDefine'], 'No defined parent'],
+			[['Author', 'class'=>'User'], 'Not found class'],
+		];
+	}
 
+	public function testDefineUseClassOption() {
+		Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
+		$results = Fabricate::attributes_for('PublishedPost');
+		$this->assertEquals('1', $results[0]['published']);
+	}
+
+	public function testDefineUseNestedOption() {
+		Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
+		Fabricate::define(['Author5PublishedPost', 'parent'=>'PublishedPost'], ['author_id'=>'5']);
+		$results = Fabricate::attributes_for('Author5PublishedPost');
+		$this->assertEquals('1', $results[0]['published']);
+		$this->assertEquals('5', $results[0]['author_id']);
+	}
 
 }
