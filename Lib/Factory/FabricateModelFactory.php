@@ -10,13 +10,13 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 
 	public function create($attributes, $recordCount, $definition) {
 		foreach ($attributes as $data) {
-			$this->model->create($data);
+			$this->model->create($data, $this->config->filter_key);
 			$this->model->save(null, $this->config->auto_validate);
 		}
 		return $this->model;
 	}
 	public function build($data, $definition) {
-		$this->model->create($data[0]);
+		$this->model->create($data[0], $this->config->filter_key);
 		return $this->model;
 	}
 	public function attributes_for($recordCount, $definition) {

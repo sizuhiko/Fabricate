@@ -33,6 +33,10 @@ class Fabricate {
 	public function __construct() {
 	}
 
+	public static function clear() {
+		self::$_instance = null;
+	}
+
 	/**
 	 * To override these settings
 	 * @param $callback($config) can override $config(class of FabricateConfig) attributes 

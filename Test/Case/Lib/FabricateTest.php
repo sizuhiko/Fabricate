@@ -16,6 +16,11 @@ class Post extends CakeTestModel {
 class FabricateTest extends CakeTestCase {
 	public $fixtures = ['plugin.fabricate.post'];
 
+	public function setUp() {
+		parent::setUp();
+		Fabricate::clear();
+	}
+
 	public function testAttributesFor() {
 		$results = Fabricate::attributes_for('Post', 10, function($data){
 			return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
@@ -171,6 +176,16 @@ class FabricateTest extends CakeTestCase {
 		$results = Fabricate::attributes_for('Author5PublishedPost');
 		$this->assertEquals('1', $results[0]['published']);
 		$this->assertEquals('5', $results[0]['author_id']);
+	}
+
+	public function testCreateOverwritesAnyPrimaryKeyInputWithAnEmptyIfFilterKeyIsTrue() {
+		Fabricate::config(function($config) {
+			$config->filter_key = true;
+		});
+		Fabricate::create('Post', ["id"=>5,"created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"]);
+		$model = ClassRegistry::init('Post');
+		$results = $model->find('all');
+		$this->assertEquals(1, $results[0]['Post']['id']);
 	}
 
 }
