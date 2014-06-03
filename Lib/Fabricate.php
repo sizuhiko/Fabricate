@@ -83,6 +83,18 @@ class Fabricate {
 	}
 
 	/**
+	 * Only create model attributes array for association.
+	 * @return array model attributes array.
+	 */
+	public static function association($modelName, $recordCount=1, $callback = null) {
+		$instance = self::getInstance();
+		$factory = $instance->factory($modelName);
+		$definition = $instance->definition($recordCount, $callback);
+		$recordCount = $instance->recordCount($recordCount);
+		return $factory->attributes_for($recordCount, $definition);
+	}
+
+	/**
 	 * @param mixed $name
 	 * @param mixed $define
 	 */

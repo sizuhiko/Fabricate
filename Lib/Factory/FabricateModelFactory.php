@@ -11,7 +11,10 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 	public function create($attributes, $recordCount, $definition) {
 		foreach ($attributes as $data) {
 			$this->model->create($data, $this->config->filter_key);
-			$this->model->save(null, $this->config->auto_validate);
+			$this->model->saveAssociated(null,  [
+				'validate' => $this->config->auto_validate,
+				'deep'     => true,
+			]);
 		}
 		return $this->model;
 	}

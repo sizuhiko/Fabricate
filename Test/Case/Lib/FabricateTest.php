@@ -3,18 +3,32 @@
 App::uses('Fabricate', 'Fabricate.Lib');
 
 /**
+ * User class
+ *
+ * @package       Cake.Test.Case.Model
+ */
+class User extends CakeTestModel {
+	public $hasMany = [
+		'Post' => ['foreignKey' => 'author_id']
+	];
+}
+
+/**
  * Post class
  *
  * @package       Cake.Test.Case.Model
  */
 class Post extends CakeTestModel {
+	public $belongsTo = [
+		'Author' => ['className' => 'User', 'foreignKey' => 'author_id'],
+	];
 }
 
 /**
  * Fabricate class test case
  */
 class FabricateTest extends CakeTestCase {
-	public $fixtures = ['plugin.fabricate.post'];
+	public $fixtures = ['plugin.fabricate.post', 'plugin.fabricate.user'];
 
 	public function setUp() {
 		parent::setUp();
@@ -160,7 +174,7 @@ class FabricateTest extends CakeTestCase {
 			['', 'Empty name'],
 			[['', 'class'=>'Post'], 'Empty name'],
 			[['Test', 'parent'=>'NotDefine'], 'No defined parent'],
-			[['Author', 'class'=>'User'], 'Not found class'],
+			[['Manager', 'class'=>'Person'], 'Not found class'],
 		];
 	}
 
@@ -193,5 +207,22 @@ class FabricateTest extends CakeTestCase {
 		$results = Fabricate::attributes_for('Post');
 		$this->assertEquals('1', $results[0]['published']);
 	}
+
+	public function testSaveWithAssociation() {
+		Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
+		Fabricate::create('User', function($data, $world) {
+			$ret = [
+				'user' => 'taro',
+				'Post' => Fabricate::association('PublishedPost', 3, ['id'=>false,'author_id'=>false]),
+			];
+			return $ret;
+		});
+
+		$model = ClassRegistry::init('User');
+		$results = $model->find('first', ['contain'=>['Post']]);
+		$this->assertEquals('taro', $results['User']['user']);
+		$this->assertCount(3, $results['Post']);
+	}
+
 
 }
