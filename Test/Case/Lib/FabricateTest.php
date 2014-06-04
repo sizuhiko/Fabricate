@@ -223,5 +223,40 @@ class FabricateTest extends CakeTestCase {
 		$this->assertCount(3, $results['Post']);
 	}
 
+	public function testDefineAndUseTrait() {
+		Fabricate::define(['trait'=>'published'], ['published'=>'1']);
+		$results = Fabricate::attributes_for('Post', function($data, $world) {
+			$world->traits('published');
+			return ['id'=>false];
+		});
+		$this->assertEquals('1', $results[0]['published']);
+	}
+
+	public function testDefineAndUseMultiTrait() {
+		Fabricate::define(['trait'=>'published'], ['published'=>'1']);
+		Fabricate::define(['trait'=>'author5'],   function($data, $world) { return ['author_id'=>5]; });
+		$results = Fabricate::attributes_for('Post', function($data, $world) {
+			$world->traits(['published','author5']);
+			return ['id'=>false];
+		});
+		$this->assertEquals('1', $results[0]['published']);
+		$this->assertEquals(5, $results[0]['author_id']);
+	}
+
+	public function testDefineAndAssociationAndTraits() {
+		Fabricate::define(['trait'=>'published'], ['published'=>'1']);
+		Fabricate::define(['PublishedPost', 'class'=>'Post'], function($data, $world) { return ['published'=>'1']; });
+		Fabricate::create('User', function($data, $world) {
+			return [
+				'user' => 'taro',
+				'Post' => Fabricate::association('PublishedPost', 3, ['id'=>false,'author_id'=>false]),
+			];
+		});
+
+		$model = ClassRegistry::init('User');
+		$results = $model->find('first', ['contain'=>['Post']]);
+		$this->assertEquals('taro', $results['User']['user']);
+		$this->assertEquals(['1','1','1'], Hash::extract($results, 'Post.{n}.published'));
+	}
 
 }

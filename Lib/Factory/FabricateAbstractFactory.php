@@ -53,11 +53,28 @@ abstract class FabricateAbstractFactory {
 		$records = array();
 		for ($i = 0; $i < $recordCount; $i++) {
 			$record = $this->fakeRecord($params, $i);
-			foreach ($definitions as $definition) {
-				$record = array_merge($record, $definition->run($record, $world));
-			}
-			$records[] = $record;
+			$records[] = $this->applyNestedDefinitions($definitions, $record, $world);
 		}
 		return $records;
 	}
+
+	private function applyNestedDefinitions($definitions, $record, $world) {
+		foreach ($definitions as $definition) {
+			$result = $definition->run($record, $world);
+			$record = $this->applyTraits($record, $world);
+			$record = array_merge($record, $result);
+		}
+		return $record;
+	}
+
+	private function applyTraits($record, $world) {
+		foreach ($world->flashTraits() as $use) {
+			$traits = Fabricate::traits();
+			if(array_key_exists($use, $traits)) {
+				$record = array_merge($record, $traits[$use]->run($record, $world));
+			}
+		}
+		return $record;
+	}
+
 }

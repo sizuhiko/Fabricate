@@ -14,6 +14,7 @@ class Fabricate {
 	private $config;
 	private $registry;
 	private $factory;
+	private $traits;
 
 	/**
 	 * Return Fabricator instance
@@ -23,6 +24,7 @@ class Fabricate {
 			self::$_instance = new Fabricate();
 			self::$_instance->config = new FabricateConfig();
 			self::$_instance->registry = new FabricateRegistry('Fabricate');
+			self::$_instance->traits = [];
 		}
 		return self::$_instance;
 	}
@@ -95,6 +97,14 @@ class Fabricate {
 	}
 
 	/**
+	 * Return defined traits.
+	 * @return array registed trait definition
+	 */
+	public static function traits() {
+		return self::getInstance()->traits;
+	}
+
+	/**
 	 * @param mixed $name
 	 * @param mixed $define
 	 */
@@ -102,10 +112,17 @@ class Fabricate {
 		$instance = self::getInstance();
 		$parent = false;
 		$base   = false;
+		$trait  = false;
 		if(is_array($name)) {
 			$parent = array_key_exists('parent', $name)?$name['parent']:false;
 			$base   = array_key_exists('class', $name)?$name['class']:false;
-			$name   = $name[0]; 
+			if(array_key_exists('trait', $name)) {
+				$name = $name['trait'];
+				$parent = $base = false;
+				$trait = true;
+			} else {
+				$name = $name[0];
+			}
 		}
 		if(empty($name)) {
 			throw new InvalidArgumentException("name is empty");
@@ -116,10 +133,14 @@ class Fabricate {
 		if($base && in_array(ClassRegistry::init($base, true),[false, null])) {
 			throw new InvalidArgumentException("class `{$base}` is not found");
 		}
+		$definition = new FabricateDefinition($define);
+		if($trait) {
+			$instance->traits[$name] = $definition;
+			return;
+		}
 		if(!$parent && !$base) {
 			$base = $name;
 		}
-		$definition = new FabricateDefinition($define);
 		$definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent)):false;
 		$definition->parent = $base?FabricateFactory::create(ClassRegistry::init($base)):$definition->parent;
 		$definition->parent->setConfig(self::getInstance()->config);
