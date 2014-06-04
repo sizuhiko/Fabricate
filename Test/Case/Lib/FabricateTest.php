@@ -245,7 +245,10 @@ class FabricateTest extends CakeTestCase {
 
 	public function testDefineAndAssociationAndTraits() {
 		Fabricate::define(['trait'=>'published'], ['published'=>'1']);
-		Fabricate::define(['PublishedPost', 'class'=>'Post'], function($data, $world) { return ['published'=>'1']; });
+		Fabricate::define(['PublishedPost', 'class'=>'Post'], function($data, $world) {
+			$world->traits('published');
+			return ['title'=>$world->sequence('title',function($i) { return "Title{$i}"; })];
+		});
 		Fabricate::create('User', function($data, $world) {
 			return [
 				'user' => 'taro',
@@ -257,6 +260,7 @@ class FabricateTest extends CakeTestCase {
 		$results = $model->find('first', ['contain'=>['Post']]);
 		$this->assertEquals('taro', $results['User']['user']);
 		$this->assertEquals(['1','1','1'], Hash::extract($results, 'Post.{n}.published'));
+		$this->assertEquals(['Title1','Title2','Title3'], Hash::extract($results, 'Post.{n}.title'));
 	}
 
 }
