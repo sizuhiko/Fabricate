@@ -12,6 +12,10 @@ class FabricateContext {
 	 */
 	private $sequences = [];
 	/**
+	 * Trait use array
+	 */
+	private $traits = [];
+	/**
 	 * Fabricate config
 	 */
 	private $config;
@@ -50,4 +54,27 @@ class FabricateContext {
 		$this->sequences[$name]->next();
 		return $ret;
 	}
+
+	/**
+	 * Add apply trait in the scope.
+	 * @param string|array $name use trait name(s)
+	 */
+	public function traits($name) {
+		if(is_array($name)) {
+			$this->traits = array_merge($this->traits, $name);
+		} else {
+			$this->traits[] = $name;
+		}
+	}
+
+	/**
+	 * Flush trait stack in the scope
+	 * @return array flushed trait stack
+	 */
+	public function flashTraits() {
+		$traits = $this->traits;
+		$this->traits = [];
+		return $traits;
+	}
+
 }
