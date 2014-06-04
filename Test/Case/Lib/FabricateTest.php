@@ -211,11 +211,10 @@ class FabricateTest extends CakeTestCase {
 	public function testSaveWithAssociation() {
 		Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
 		Fabricate::create('User', function($data, $world) {
-			$ret = [
+			return [
 				'user' => 'taro',
 				'Post' => Fabricate::association('PublishedPost', 3, ['id'=>false,'author_id'=>false]),
 			];
-			return $ret;
 		});
 
 		$model = ClassRegistry::init('User');
