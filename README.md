@@ -60,6 +60,41 @@ The hash will overwrite any fields defined in the callback function.
 
 ## APIs
 
+### Configuration
+
+To override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml 
+
+```
+Fabricate::config(function($config) {
+    $config->sequence_start = 1;
+    $config->auto_validate = false;
+    $config->filter_key = false;
+});
+```
+
+#### Supported Options
+
+##### sequence_start
+
+Allows you to specify the default starting number for all sequences. 
+This can still be overridden for specific sequences.
+
+`Default: 1`
+
+##### auto_validate
+
+Indicates whether or not to validate before creating.
+see: CakePHP's Model::save()
+
+`Default: false`
+
+##### filter_key
+
+filter_key If true, overwrites any primary key input with an empty value.
+see: CakePHP's Model::create()
+
+`Default: false`
+
 ### Generate model attributes as array (not saved)
 
 `Fabricate::attributes_for(:model_name, :number_of_generation, :array_or_callback)` generate only attributes.
@@ -131,6 +166,61 @@ Fabricate::create('Post', 10, function($data){
 });
 ```
 
+## Defining 
+
+Fabricate has a name and a set of attributes when fabricating objects.
+The name is used to guess the class of the object by default, 
+
+```php
+Fabricate::define('Post', ['published'=>'1']);
+// or using callback block
+Fabricate::define('Post', function($data, $world) {
+    return ['published'=>'1']
+});
+```
+
+To use a different name from the class, you must specify 'class'=>:class_name into first argument as array.
+
+```php
+Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
+
+Fabricate::create('PublishedPost');
+```
+
+You can inherit attributes from other defined set of attributes by using the 'parent' key.
+
+```php
+Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
+Fabricate::define(['Author5PublishedPost', 'parent'=>'PublishedPost'], ['author_id'=>'5']);
+
+Fabricate::create('Author5PublishedPost');
+```
+## Associations
+
+It's possible to set up associations(hasOne/hasMany) within Fabricate::create().
+You can also specify a Fabricate::association().
+It will generate the attributes, and set(merge) it in the current array. 
+
+### Usage
+
+```php
+Fabricate::create('User', function($data, $world) {
+    return [
+        'user' => 'taro',
+        'Post' => Fabricate::association('Post', 3),
+    ];
+});
+// or can overwritten by array or callback block.
+Fabricate::create('User', function($data, $world) {
+    return [
+        'user' => 'taro',
+        'Post' => Fabricate::association('Post', 3, function($data, $world) {
+            return ['title'=>$world->sequence('Post.title',function($i){ return "Title-${i}"; })];
+        }),
+    ];
+});
+```
+
 ## Sequences
 
 A sequence allows you to get a series of numbers unique within the each generation function. Fabrication provides you with an easy and flexible means for keeping track of sequences.
@@ -198,6 +288,37 @@ If you are generating something like an unique string, you can pass it a callbac
 $world->sequence('title', function($i){ return "Title {$i}"; }
 // or with start number
 $world->sequence('title', 1, function($i){ return "Title {$i}"; }
+```
+
+## Traits
+
+Traits allow you to group attributes together and then apply them to any fabricating objects.
+
+```php
+Fabricate::define(['trait'=>'published'], ['published'=>'1']);
+Fabricate::create('Post', function($data, $world) {
+    $world->traits('published');
+    return ['author_id'=>5];
+});
+```
+
+`traits` can specify defined names as array
+
+```php
+Fabricate::define(['trait'=>'published'], ['published'=>'1']);
+Fabricate::define(['trait'=>'author5'],   function($data, $world) { return ['author_id'=>5]; });
+Fabricate::create('Post', function($data, $world) {
+    $world->traits(['published','author5']);
+    return [];
+});
+```
+
+## Reloading
+
+If you need to reset fabricate back to its original state after it has been loaded.
+
+```php
+Fabricate::clear();
 ```
 
 ## Contributing to this Plugin
