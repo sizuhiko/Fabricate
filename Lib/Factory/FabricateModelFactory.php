@@ -23,7 +23,7 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 		return $this->model;
 	}
 	public function attributes_for($recordCount, $definition) {
-		return $this->_generateRecords($this->model->schema(), $recordCount, $definition);
+		return $this->_generateRecords($this->model->schema(), $recordCount, $definition, $this->model);
 	}
 
 	protected function fakeRecord($tableInfo, $index) {

@@ -206,8 +206,8 @@ Fabricate::create('Author5PublishedPost');
 ```
 ## Associations
 
-It's possible to set up associations(hasOne/hasMany) within Fabricate::create().
-You can also specify a Fabricate::association().
+It's possible to set up associations(hasOne/hasMany/belongsTo) within Fabricate::create().
+You can also specify a FabricateContext::association().
 It will generate the attributes, and set(merge) it in the current array. 
 
 ### Usage
@@ -216,16 +216,31 @@ It will generate the attributes, and set(merge) it in the current array.
 Fabricate::create('User', function($data, $world) {
     return [
         'user' => 'taro',
-        'Post' => Fabricate::association('Post', 3),
+        'Post' => $world->association('Post', 3),
     ];
 });
 // or can overwritten by array or callback block.
 Fabricate::create('User', function($data, $world) {
     return [
         'user' => 'taro',
-        'Post' => Fabricate::association('Post', 3, function($data, $world) {
+        'Post' => $world->association('Post', 3, function($data, $world) {
             return ['title'=>$world->sequence('Post.title',function($i){ return "Title-${i}"; })];
         }),
+    ];
+});
+// can use defined onbject.
+Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
+Fabricate::create('User', function($data, $world) {
+    return [
+        'user' => 'taro',
+        'Post' => $world->association(['PublishedPost', 'association'=>'Post'], 3),
+    ];
+});
+// can use association alias (Post belongs to Author of User class)
+Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
+Fabricate::create('PublishedPost', 3, function($data, $world) {
+    return [
+        'Author' => $world->association(['User', 'association'=>'Author'], ['id'=>1,'user'=>'taro']),
     ];
 });
 ```

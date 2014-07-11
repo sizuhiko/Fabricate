@@ -43,10 +43,11 @@ abstract class FabricateAbstractFactory {
 	 * @param array $params fakeRecord parameter
 	 * @param integer $recordCount
 	 * @param mixed $definition FabricateDefinition(s)
+	 * @param mixed $model Model instance
 	 * @return array Array of records.
 	 */
-	protected function _generateRecords($params, $recordCount, $definitions) {
-		$world = new FabricateContext($this->config);
+	protected function _generateRecords($params, $recordCount, $definitions, $model) {
+		$world = new FabricateContext($this->config, $model);
 		if(!is_array($definitions)) {
 			$definitions = [$definitions];
 		}
