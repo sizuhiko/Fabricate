@@ -26,13 +26,14 @@ class FabricateRegistry {
 	/**
 	 * Find from registred or model by name
 	 * @param string $name
+	 * @param boolean $testing
 	 * @return mixed registerd object
 	 */
-	public function find($name) {
+	public function find($name, $testing=true) {
 		if($this->is_registered($name)) {
 			return $this->items[$name];
 		}
-		$model = ClassRegistry::init($name, true);
+		$model = ClassRegistry::init(['class'=>$name, 'testing'=>$testing], true);
 		if($model) {
 			return $model;
 		}
