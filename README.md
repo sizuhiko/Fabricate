@@ -69,6 +69,7 @@ Fabricate::config(function($config) {
     $config->sequence_start = 1;
     $config->auto_validate = false;
     $config->filter_key = false;
+    $config->testing = true;
 });
 ```
 
@@ -94,6 +95,14 @@ filter_key If true, overwrites any primary key input with an empty value.
 see: CakePHP's Model::create()
 
 `Default: false`
+
+##### testing
+
+testing If false, uses create seed data to default database with using Fabricate.
+All model instance created by CalssRegistry::init('modelName', ['testing'=>false]).
+see: CakePHP's ClassRegistry::init()
+
+`Default: true`
 
 ### Generate model attributes as array (not saved)
 
