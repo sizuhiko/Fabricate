@@ -2,6 +2,6 @@
 
 App::uses('AppModel', 'Model');
 
-class FablicateAppModel extends AppModel {
+class FabricateAppModel extends AppModel {
 
 }
