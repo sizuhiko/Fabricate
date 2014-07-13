@@ -7,8 +7,9 @@ php:
 
 env:
   global:
-    - PLUGIN_NAME=Example
+    - PLUGIN_NAME=Fabricate
     - REQUIRE=""
+    - DB=mysql CAKE_VERSION=2.4
 
   matrix:
     - DB=mysql CAKE_VERSION=2.4
