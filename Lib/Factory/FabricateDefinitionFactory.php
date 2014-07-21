@@ -29,7 +29,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 			array_unshift($definitions, $this->definition);
 			return $this->definition->parent->attributes_for($recordCount, $definitions);
 		}
-		return $this->_generateRecords([], $recordCount, $definition);
+		return $this->_generateRecords([], $recordCount, $definition, false);
 	}
 
 	protected function fakeRecord($params, $index) {

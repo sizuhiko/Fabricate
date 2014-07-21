@@ -2,6 +2,7 @@
 
 App::uses('FabricateSequence', 'Fabricate.Lib');
 App::uses('FabricateConfig', 'Fabricate.Lib');
+App::uses('Fabricate', 'Fabricate.Lib');
 
 /**
  * Fabricator Context
@@ -19,12 +20,17 @@ class FabricateContext {
 	 * Fabricate config
 	 */
 	private $config;
+	/**
+	 * Fabricateing Model instance
+	 */
+	private $model;
 
 	/**
 	 * Construct with Configuration
 	 */
-	public function __construct($conf) {
+	public function __construct($conf, $model=null) {
 		$this->config = $conf;
+		$this->model = $model;
 	}
 
 	/**
@@ -75,6 +81,29 @@ class FabricateContext {
 		$traits = $this->traits;
 		$this->traits = [];
 		return $traits;
+	}
+
+	/**
+	 * Only create model attributes array for association.
+	 * @param mixed $association association name
+	 * @param $recordCount integer count for creating.
+	 * @param $callback  mixed callback or array can change fablicated data if you want to overwrite
+	 * @return array model attributes array.
+	 */
+	public function association($association, $recordCount=1, $callback = null) {
+		if(!is_array($association)) {
+			$association = [$association, 'association' => $association];
+		}
+		$attributes = Fabricate::association($association[0], $recordCount, $callback);
+		if($this->model) {
+			$associations = $this->model->getAssociated();
+			if (isset($associations[$association['association']]) 
+			&& $associations[$association['association']] !== 'hasMany' 
+			&& !empty($attributes)) {
+				$attributes = $attributes[0];
+			}
+		}
+		return $attributes;
 	}
 
 }
