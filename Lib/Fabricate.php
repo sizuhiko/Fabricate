@@ -130,7 +130,7 @@ class Fabricate {
 		if($parent && !$instance->registry->is_registered($parent)) {
 			throw new InvalidArgumentException("parent `{$parent}` is not registered");
 		}
-		if($base && in_array(ClassRegistry::init($base, true),[false, null])) {
+		if($base && in_array(ClassRegistry::init(['class'=>$base, 'testing'=>$instance->config->testing], true),[false, null])) {
 			throw new InvalidArgumentException("class `{$base}` is not found");
 		}
 		$definition = new FabricateDefinition($define);
@@ -141,15 +141,15 @@ class Fabricate {
 		if(!$parent && !$base) {
 			$base = $name;
 		}
-		$definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent)):false;
-		$definition->parent = $base?FabricateFactory::create(ClassRegistry::init($base)):$definition->parent;
+		$definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent, $instance->config->testing)):false;
+		$definition->parent = $base?FabricateFactory::create(ClassRegistry::init(['class'=>$base, 'testing'=>$instance->config->testing])):$definition->parent;
 		$definition->parent->setConfig(self::getInstance()->config);
 
 		$instance->registry->register($name, $definition);
 	}
 
 	private function factory($name) {
-		$factory = FabricateFactory::create(self::getInstance()->registry->find($name));
+		$factory = FabricateFactory::create(self::getInstance()->registry->find($name, self::getInstance()->config->testing));
 		$factory->setConfig(self::getInstance()->config);
 		return $factory;
 	}

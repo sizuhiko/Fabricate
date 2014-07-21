@@ -2,6 +2,6 @@
 
 App::uses('AppController', 'Controller');
 
-class FablicateAppController extends AppController {
+class FabricateAppController extends AppController {
 
 }
