@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$PHPCS" = '2' ]; then
+if [ "$PHPCS" = '1' ]; then
 	pear install PHP_CodeSniffer	
 	phpenv rehash
 	exit 0
