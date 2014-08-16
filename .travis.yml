@@ -28,9 +28,9 @@ matrix:
         - FOC_VALIDATE=1
 
 before_script:
-  - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
-  - before_script.sh
+  - ./before_script.sh
   - export PHPCS=0
+  - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
 
 script:
