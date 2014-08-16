@@ -21,17 +21,16 @@ matrix:
         - COVERALLS=1
     - php: 5.4
       env:
-        - PHPCS=1
+        - PHPCS=2
         - PHPCS_IGNORE="*/Test/*,*/Vendor/*"
     - php: 5.4
       env:
         - FOC_VALIDATE=1
 
 before_script:
-  - ./before_script.sh
-  - export PHPCS=0
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
+  - ./before_script.sh
 
 script:
   - ../travis/script.sh
