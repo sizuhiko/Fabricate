@@ -1,13 +1,28 @@
 <?php 
 App::uses('FabricateAbstractFactory', 'Fabricate.Lib/Factory');
 
+/**
+ * FabricateModelFactory class
+ */
 class FabricateModelFactory extends FabricateAbstractFactory {
+
+/**
+ * @var Model CakePHP Model instance
+ */
 	private $model;
 
+/** 
+ * Construct
+ *
+ * @param Model $model
+ */
 	public function __construct($model) {
 		$this->model = $model;
 	}
 
+/**
+ * {@inheritdoc}
+ */
 	public function create($attributes, $recordCount, $definition) {
 		foreach ($attributes as $data) {
 			$this->model->create($data, $this->config->filter_key);
@@ -18,14 +33,25 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 		}
 		return $this->model;
 	}
+
+/**
+ * {@inheritdoc}
+ */
 	public function build($data, $definition) {
 		$this->model->create($data[0], $this->config->filter_key);
 		return $this->model;
 	}
+
+/**
+ * {@inheritdoc}
+ */
 	public function attributes_for($recordCount, $definition) {
 		return $this->_generateRecords($this->model->schema(), $recordCount, $definition, $this->model);
 	}
 
+/**
+ * {@inheritdoc}
+ */
 	protected function fakeRecord($tableInfo, $index) {
 		foreach ($tableInfo as $field => $fieldInfo) {
 			if (empty($fieldInfo['type'])) {
