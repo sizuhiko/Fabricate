@@ -14,14 +14,14 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 /** 
  * Construct
  *
- * @param Model $model
+ * @param Model $model CakePHP Model instance
  */
 	public function __construct($model) {
 		$this->model = $model;
 	}
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  */
 	public function create($attributes, $recordCount, $definition) {
 		foreach ($attributes as $data) {
@@ -35,7 +35,7 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 	}
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  */
 	public function build($data, $definition) {
 		$this->model->create($data[0], $this->config->filter_key);
@@ -43,14 +43,14 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 	}
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  */
 	public function attributes_for($recordCount, $definition) {
 		return $this->_generateRecords($this->model->schema(), $recordCount, $definition, $this->model);
 	}
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  */
 	protected function fakeRecord($tableInfo, $index) {
 		foreach ($tableInfo as $field => $fieldInfo) {

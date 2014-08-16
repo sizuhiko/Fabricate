@@ -12,7 +12,8 @@ class FabricateSequence {
 
 /**
  * Construct with sequence start
- * @param integer $start 
+ *
+ * @param integer $start number of starting
  */
 	public function __construct($start) {
 		$this->sequence = $start;

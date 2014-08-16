@@ -12,6 +12,7 @@ abstract class FabricateAbstractFactory {
  * @param array $attributes map of model attributes and data
  * @param integer $recordCount count for creating.
  * @param FabricateDefinition $definition define
+ * @return mixed
  */
 	abstract public function create($attributes, $recordCount, $definition);
 
@@ -48,6 +49,7 @@ abstract class FabricateAbstractFactory {
  * Set configuration
  *
  * @param array $config configuration
+ * @return void
  */
 	public function setConfig($config) {
 		$this->config = $config;
@@ -79,8 +81,8 @@ abstract class FabricateAbstractFactory {
  * Apply nested definitions
  *
  * @param array $definitions array of FabricateDefinition
- * @param array $record
- * @param FabricateContext $world
+ * @param array $record data
+ * @param FabricateContext $world context
  * @return array record applied nested definitions
  */
 	private function applyNestedDefinitions($definitions, $record, $world) {
@@ -95,8 +97,8 @@ abstract class FabricateAbstractFactory {
 /** 
  * Apply traits
  *
- * @param array $record
- * @param FabricateContext $world
+ * @param array $record data
+ * @param FabricateContext $world context
  * @return array record applied traits
  */
 	private function applyTraits($record, $world) {

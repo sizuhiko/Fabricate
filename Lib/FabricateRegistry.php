@@ -59,6 +59,7 @@ class FabricateRegistry {
 
 /**
  * Regist to registries
+ *
  * @param string $name name
  * @param FabricateDefinition $item item
  * @return void

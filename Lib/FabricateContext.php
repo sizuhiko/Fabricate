@@ -8,6 +8,7 @@ App::uses('Fabricate', 'Fabricate.Lib');
  * Fabricator Context
  */
 class FabricateContext {
+
 /**
  * Sequence Hash map
  *
