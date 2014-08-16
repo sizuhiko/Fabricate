@@ -16,36 +16,36 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 		$this->definition = $definition;
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	public function create($attributes, $recordCount, $definition) {
+// @codingStandardsIgnoreEnd
 		if ($this->definition->parent) {
 			return $this->definition->parent->create($attributes, $recordCount, $definition);
 		}
 		return null;
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	public function build($data, $definition) {
+// @codingStandardsIgnoreEnd
 		if ($this->definition->parent) {
 			return $this->definition->parent->build($attributes, $definition);
 		}
 		return null;
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	public function attributes_for($recordCount, $definition) {
+// @codingStandardsIgnoreEnd
 		if ($this->definition->parent) {
 			if (is_array($definition)) {
 				$definitions = $definition;
@@ -58,12 +58,12 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 		return $this->_generateRecords([], $recordCount, $definition, false);
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	protected function fakeRecord($params, $index) {
+// @codingStandardsIgnoreEnd
 		return [];
 	}
 }

@@ -20,12 +20,12 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 		$this->model = $model;
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	public function create($attributes, $recordCount, $definition) {
+// @codingStandardsIgnoreEnd
 		foreach ($attributes as $data) {
 			$this->model->create($data, $this->config->filter_key);
 			$this->model->saveAssociated(null,  [
@@ -36,31 +36,31 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 		return $this->model;
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	public function build($data, $definition) {
+// @codingStandardsIgnoreEnd
 		$this->model->create($data[0], $this->config->filter_key);
 		return $this->model;
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	public function attributes_for($recordCount, $definition) {
+// @codingStandardsIgnoreEnd
 		return $this->_generateRecords($this->model->schema(), $recordCount, $definition, $this->model);
 	}
 
-// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreEnd
+// @codingStandardsIgnoreStart
 	protected function fakeRecord($tableInfo, $index) {
+// @codingStandardsIgnoreEnd
 		foreach ($tableInfo as $field => $fieldInfo) {
 			if (empty($fieldInfo['type'])) {
 				continue;
