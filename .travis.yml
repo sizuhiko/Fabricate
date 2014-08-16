@@ -22,7 +22,7 @@ matrix:
     - php: 5.4
       env:
         - PHPCS=1
-        - PHPCS_IGNORE="*/Test/*,*/Vendor/*"
+        - PHPCS_IGNORE="*/Test/*,*/Vendor/*,*/cakephp-codesniffer/*"
     - php: 5.4
       env:
         - FOC_VALIDATE=1
@@ -31,7 +31,7 @@ before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
   - git clone -b master https://github.com/cakephp/cakephp-codesniffer.git
-  - phpcs --config-set installed_paths=cakephp-codesniffer
+  - phpcs --config-set installed_paths cakephp-codesniffer
 
 script:
   - ../travis/script.sh
