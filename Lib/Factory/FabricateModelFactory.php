@@ -20,9 +20,11 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 		$this->model = $model;
 	}
 
+// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
+// @codingStandardsIgnoreEnd
 	public function create($attributes, $recordCount, $definition) {
 		foreach ($attributes as $data) {
 			$this->model->create($data, $this->config->filter_key);
@@ -34,24 +36,30 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 		return $this->model;
 	}
 
+// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
+// @codingStandardsIgnoreEnd
 	public function build($data, $definition) {
 		$this->model->create($data[0], $this->config->filter_key);
 		return $this->model;
 	}
 
+// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
+// @codingStandardsIgnoreEnd
 	public function attributes_for($recordCount, $definition) {
 		return $this->_generateRecords($this->model->schema(), $recordCount, $definition, $this->model);
 	}
 
+// @codingStandardsIgnoreStart
 /**
  * {@inheritDoc}
  */
+// @codingStandardsIgnoreEnd
 	protected function fakeRecord($tableInfo, $index) {
 		foreach ($tableInfo as $field => $fieldInfo) {
 			if (empty($fieldInfo['type'])) {
