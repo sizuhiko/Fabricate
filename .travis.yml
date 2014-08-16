@@ -29,7 +29,7 @@ matrix:
 
 before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
-  - if [ test ${PHPCS} != '1' ]; then ../travis/before_script.sh
+  - if [ test ${PHPCS} != '1' ]; then ../travis/before_script.sh; fi
   - ./install_phpcs.sh
   - ./install_cakephp_codesniffer.sh
 
