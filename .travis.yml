@@ -22,6 +22,7 @@ matrix:
     - php: 5.4
       env:
         - PHPCS=1
+        - PHPCS_ARGS="-p -s --extensions=php --standard=ruleset.xml --ignore='*/Test/*,*/Vendor/*' ."
     - php: 5.4
       env:
         - FOC_VALIDATE=1
