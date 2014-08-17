@@ -14,6 +14,7 @@ class FabricateFactory {
  *
  * @param mixed $definition FabricateDifinition or CakePHP Model instance.
  * @return FabricateAbstractFactory 
+ * @throws InvalidArgumentException
  */
 	public static function create($definition) {
 		if ($definition instanceof FabricateDefinition) {

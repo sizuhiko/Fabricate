@@ -10,7 +10,7 @@ abstract class FabricateAbstractFactory {
  * Create and Save fablicated model data to database.
  *
  * @param array $attributes map of model attributes and data
- * @param integer $recordCount count for creating.
+ * @param int $recordCount count for creating.
  * @param FabricateDefinition $definition define
  * @return mixed
  */
@@ -28,7 +28,7 @@ abstract class FabricateAbstractFactory {
 /**
  * Only create model attributes array.
  *
- * @param integer $recordCount count for creating.
+ * @param int $recordCount count for creating.
  * @param FabricateDefinition $definition define
  * @return array model attributes array.
  */
@@ -38,7 +38,7 @@ abstract class FabricateAbstractFactory {
  * Fake a record
  *
  * @param mixed $params _generateRecords params attribute
- * @param integer $index each record index
+ * @param int $index each record index
  * @return mixed faked record
  */
 	abstract protected function fakeRecord($params, $index);
@@ -59,7 +59,7 @@ abstract class FabricateAbstractFactory {
  * Generate Records
  *
  * @param array $params fakeRecord parameter
- * @param integer $recordCount count for generating
+ * @param int $recordCount count for generating
  * @param mixed $definitions FabricateDefinition(s)
  * @param mixed $model Model instance
  * @return array Array of records.
@@ -94,7 +94,7 @@ abstract class FabricateAbstractFactory {
 		return $record;
 	}
 
-/** 
+/**
  * Apply traits
  *
  * @param array $record data

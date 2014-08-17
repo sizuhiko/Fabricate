@@ -43,14 +43,15 @@ class FabricateRegistry {
  * Find from registred or model by name
  *
  * @param string $name model name
- * @param boolean $testing true if connect to test datasource, otherwise false
+ * @param bool $testing true if connect to test datasource, otherwise false
  * @return mixed registerd object
+ * @throws InvalidArgumentException
  */
-	public function find($name, $testing=true) {
+	public function find($name, $testing = true) {
 		if ($this->is_registered($name)) {
 			return $this->items[$name];
 		}
-		$model = ClassRegistry::init(['class'=>$name, 'testing'=>$testing], true);
+		$model = ClassRegistry::init(['class' => $name, 'testing' => $testing], true);
 		if ($model) {
 			return $model;
 		}
@@ -72,7 +73,7 @@ class FabricateRegistry {
  * Is registered?
  *
  * @param string $name name
- * @return boolean
+ * @return bool
  */
 	public function is_registered($name) {
 		return array_key_exists($name, $this->items);

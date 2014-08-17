@@ -6,14 +6,14 @@
 class FabricateSequence {
 
 /**
- * @var integer
+ * @var int
  */
 	private $sequence;
 
 /**
  * Construct with sequence start
  *
- * @param integer $start number of starting
+ * @param int $start number of starting
  */
 	public function __construct($start) {
 		$this->sequence = $start;
@@ -22,7 +22,7 @@ class FabricateSequence {
 /**
  * Get current sequence number
  *
- * @return integer 
+ * @return int
  */
 	public function current() {
 		return $this->sequence;
@@ -31,7 +31,7 @@ class FabricateSequence {
 /**
  * Increment sequence number
  *
- * @return integer incremented number
+ * @return int incremented number
  */
 	public function next() {
 		return ++$this->sequence;

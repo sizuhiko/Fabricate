@@ -42,7 +42,7 @@ class FabricateContext {
  * @param array $conf configuration
  * @param Model $model model instance
  */
-	public function __construct($conf, $model=null) {
+	public function __construct($conf, $model = null) {
 		$this->config = $conf;
 		$this->model = $model;
 	}
@@ -51,13 +51,13 @@ class FabricateContext {
  * sequence allows you to get a series of numbers unique within the fabricate context.
  *
  * @param string $name sequence name
- * @param integer $start If you want to specify the starting number, you can do it with a second parameter. 
+ * @param int $start If you want to specify the starting number, you can do it with a second parameter. 
  *         default value is 1.
  * @param callback $callback If you are generating something like an email address, 
  *         you can pass it a block and the block response will be returned.
  * @return mixed generated sequence
  */
-	public function sequence($name, $start=null, $callback=null) {
+	public function sequence($name, $start = null, $callback = null) {
 		if (is_callable($start)) {
 			$callback = $start;
 			$start = null;
@@ -105,11 +105,11 @@ class FabricateContext {
  * Only create model attributes array for association.
  *
  * @param mixed $association association name
- * @param integer $recordCount count for creating.
+ * @param int $recordCount count for creating.
  * @param mixed $callback callback or array can change fablicated data if you want to overwrite
  * @return array model attributes array.
  */
-	public function association($association, $recordCount=1, $callback = null) {
+	public function association($association, $recordCount = 1, $callback = null) {
 		if (!is_array($association)) {
 			$association = [$association, 'association' => $association];
 		}

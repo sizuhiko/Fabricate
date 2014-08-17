@@ -7,7 +7,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
  */
 	private $definition;
 
-/** 
+/**
  * Construct
  *
  * @param FabricateDefinition $definition definition instance
@@ -19,9 +19,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	public function create($attributes, $recordCount, $definition) {
-// @codingStandardsIgnoreEnd
 		if ($this->definition->parent) {
 			return $this->definition->parent->create($attributes, $recordCount, $definition);
 		}
@@ -31,9 +29,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	public function build($data, $definition) {
-// @codingStandardsIgnoreEnd
 		if ($this->definition->parent) {
 			return $this->definition->parent->build($attributes, $definition);
 		}
@@ -43,9 +39,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	public function attributes_for($recordCount, $definition) {
-// @codingStandardsIgnoreEnd
 		if ($this->definition->parent) {
 			if (is_array($definition)) {
 				$definitions = $definition;
@@ -61,9 +55,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	protected function fakeRecord($params, $index) {
-// @codingStandardsIgnoreEnd
 		return [];
 	}
 }

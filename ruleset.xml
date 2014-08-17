@@ -1,0 +1,11 @@
+<ruleset name="Custom Standard">
+	<rule ref="CakePHP">
+		<exclude name="CakePHP.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
+		<exclude name="CakePHP.NamingConventions.ValidFunctionName.PrivateNoUnderscore" />
+		<exclude name="CakePHP.NamingConventions.ValidVariableName.ProtectedNoUnderscore" />
+		<exclude name="CakePHP.NamingConventions.ValidFunctionName.ProtectedNoUnderscore" />
+		<exclude name="CakePHP.NamingConventions.ValidFunctionName.ScopeNotCamelCaps" />
+		<exclude name="CakePHP.NamingConventions.ValidVariableName.MemberVarNotCamelCaps" />
+		<exclude name="CakePHP.WhiteSpace.TabAndSpace" />
+	</rule>
+</ruleset>

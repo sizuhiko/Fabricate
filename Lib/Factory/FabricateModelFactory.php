@@ -11,7 +11,7 @@ class FabricateModelFactory extends FabricateAbstractFactory {
  */
 	private $model;
 
-/** 
+/**
  * Construct
  *
  * @param Model $model CakePHP Model instance
@@ -23,9 +23,7 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	public function create($attributes, $recordCount, $definition) {
-// @codingStandardsIgnoreEnd
 		foreach ($attributes as $data) {
 			$this->model->create($data, $this->config->filter_key);
 			$this->model->saveAssociated(null,  [
@@ -39,9 +37,7 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	public function build($data, $definition) {
-// @codingStandardsIgnoreEnd
 		$this->model->create($data[0], $this->config->filter_key);
 		return $this->model;
 	}
@@ -49,18 +45,14 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	public function attributes_for($recordCount, $definition) {
-// @codingStandardsIgnoreEnd
 		return $this->_generateRecords($this->model->schema(), $recordCount, $definition, $this->model);
 	}
 
 /**
  * {@inheritDoc}
  */
-// @codingStandardsIgnoreStart
 	protected function fakeRecord($tableInfo, $index) {
-// @codingStandardsIgnoreEnd
 		foreach ($tableInfo as $field => $fieldInfo) {
 			if (empty($fieldInfo['type'])) {
 				continue;

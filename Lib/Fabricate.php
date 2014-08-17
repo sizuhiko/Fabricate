@@ -94,7 +94,7 @@ class Fabricate {
  * @param mixed $callback callback can chenge fablicated data if you want to overwrite
  * @return mixed results of creation
  */
-	public static function create($modelName, $recordCount=1, $callback = null) {
+	public static function create($modelName, $recordCount = 1, $callback = null) {
 		$attributes = self::attributes_for($modelName, $recordCount, $callback);
 		$instance = self::getInstance();
 		$definition = $instance->definition($recordCount, $callback);
@@ -122,7 +122,7 @@ class Fabricate {
  * @param mixed $callback callback can chenge fablicated data if you want to overwrite
  * @return array model attributes array.
  */
-	public static function attributes_for($modelName, $recordCount=1, $callback = null) {
+	public static function attributes_for($modelName, $recordCount = 1, $callback = null) {
 		$instance = self::getInstance();
 		$instance->factory = $instance->factory($modelName);
 		$definition = $instance->definition($recordCount, $callback);
@@ -138,7 +138,7 @@ class Fabricate {
  * @param mixed $callback callback can chenge fablicated data if you want to overwrite
  * @return array model attributes array.
  */
-	public static function association($modelName, $recordCount=1, $callback = null) {
+	public static function association($modelName, $recordCount = 1, $callback = null) {
 		$instance = self::getInstance();
 		$factory = $instance->factory($modelName);
 		$definition = $instance->definition($recordCount, $callback);
@@ -161,6 +161,7 @@ class Fabricate {
  * @param mixed $name name or with attributes
  * @param mixed $define definition
  * @return void
+ * @throws InvalidArgumentException
  */
 	public static function define($name, $define) {
 		$instance = self::getInstance();
@@ -184,7 +185,7 @@ class Fabricate {
 		if ($parent && !$instance->registry->is_registered($parent)) {
 			throw new InvalidArgumentException("parent `{$parent}` is not registered");
 		}
-		if ($base && in_array(ClassRegistry::init(['class'=>$base, 'testing'=>$instance->config->testing], true),[false, null])) {
+		if ($base && in_array(ClassRegistry::init(['class' => $base, 'testing' => $instance->config->testing], true), [false, null])) {
 			throw new InvalidArgumentException("class `{$base}` is not found");
 		}
 		$definition = new FabricateDefinition($define);
@@ -196,7 +197,7 @@ class Fabricate {
 			$base = $name;
 		}
 		$definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent, $instance->config->testing)):false;
-		$definition->parent = $base?FabricateFactory::create(ClassRegistry::init(['class'=>$base, 'testing'=>$instance->config->testing])):$definition->parent;
+		$definition->parent = $base?FabricateFactory::create(ClassRegistry::init(['class' => $base, 'testing' => $instance->config->testing])):$definition->parent;
 		$definition->parent->setConfig(self::getInstance()->config);
 
 		$instance->registry->register($name, $definition);
@@ -218,7 +219,7 @@ class Fabricate {
  * get count for creation record
  *
  * @param mixed $recordCount number for creation or $callback if not require $recordCount
- * @return integer
+ * @return int
  */
 	private function recordCount($recordCount) {
 		if (is_callable($recordCount) || is_array($recordCount)) {

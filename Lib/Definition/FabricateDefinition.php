@@ -40,7 +40,7 @@ class FabricateDefinition {
 		if (is_callable($this->define)) {
 			$callback = $this->define;
 			$result = $callback($data, $world);
-		} else if (is_array($this->define)) {
+		} elseif (is_array($this->define)) {
 			$result = $this->define;
 		}
 		return $result;
