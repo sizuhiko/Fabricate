@@ -15,7 +15,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Fabricate\\Test\\": "tests"
+            "Test\\Fabricate\\": "tests\\Case\\Fabricate"
         }
     },
     "require": {
