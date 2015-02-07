@@ -1,6 +1,7 @@
 {
     "name": "sizuhiko/fabricate",
-    "type": "cakephp-plugin",
+    "type": "library",
+    "license": "MIT",
     "description": "CakePHP data generator for Testing",
     "authors": [
         {
@@ -19,6 +20,6 @@
         }
     },
     "require": {
-        "composer/installers": "*"
+        "fzaninotto/faker": "~1.4"
     }
 }
