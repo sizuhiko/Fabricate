@@ -1,4 +1,10 @@
 <?php
+/**
+ * Fabricate
+ * *
+ * @package    Fabricate
+ */
+namespace Fabricate;
 
 /**
  * Fabricator Registry Class 
@@ -10,14 +16,14 @@ class FabricateRegistry {
  *
  * @var string
  */
-	private $name;
+    private $name;
 
 /**
  * registerd items
  *
  * @var array
  */
-	private $items;
+    private $items;
 
 /**
  * Construct with registry name
@@ -25,19 +31,19 @@ class FabricateRegistry {
  * @param string $name registry name
  * @return void
  */
-	public function __construct($name) {
-		$this->name  = $name;
-		$this->items = [];
-	}
+    public function __construct($name) {
+        $this->name  = $name;
+        $this->items = [];
+    }
 
 /**
  * Clear registerd entries
  *
  * @return void
  */
-	public function clear() {
-		$this->items = [];
-	}
+    public function clear() {
+        $this->items = [];
+    }
 
 /**
  * Find from registred or model by name
@@ -47,16 +53,16 @@ class FabricateRegistry {
  * @return mixed registerd object
  * @throws InvalidArgumentException
  */
-	public function find($name, $testing = true) {
-		if ($this->is_registered($name)) {
-			return $this->items[$name];
-		}
-		$model = ClassRegistry::init(['class' => $name, 'testing' => $testing], true);
-		if ($model) {
-			return $model;
-		}
-		throw new InvalidArgumentException("{$name} not registered");
-	}
+    public function find($name, $testing = true) {
+        if ($this->is_registered($name)) {
+            return $this->items[$name];
+        }
+        $model = ClassRegistry::init(['class' => $name, 'testing' => $testing], true);
+        if ($model) {
+            return $model;
+        }
+        throw new InvalidArgumentException("{$name} not registered");
+    }
 
 /**
  * Regist to registries
@@ -65,9 +71,9 @@ class FabricateRegistry {
  * @param FabricateDefinition $item item
  * @return void
  */
-	public function register($name, $item) {
-		$this->items[$name] = $item;
-	}
+    public function register($name, $item) {
+        $this->items[$name] = $item;
+    }
 
 /**
  * Is registered?
@@ -75,7 +81,7 @@ class FabricateRegistry {
  * @param string $name name
  * @return bool
  */
-	public function is_registered($name) {
-		return array_key_exists($name, $this->items);
-	}
+    public function is_registered($name) {
+        return array_key_exists($name, $this->items);
+    }
 }

@@ -1,8 +1,13 @@
 <?php
-App::uses('FabricateDefinition', 'Fabricate.Lib/Definition');
-App::uses('FabricateDefinitionFactory', 'Fabricate.Lib/Factory');
-App::uses('Model', 'Model');
-App::uses('FabricateModelFactory', 'Fabricate.Lib/Factory');
+/**
+ * Fabricate
+ * *
+ * @package    Fabricate
+ * @subpackage Fabricate\Factory
+ */
+namespace Fabricate\Factory;
+
+use Fabricate\Definition\FabricateDefinition;
 
 /**
  * Fabricator Factory Proxy Class 
@@ -16,13 +21,13 @@ class FabricateFactory {
  * @return FabricateAbstractFactory 
  * @throws InvalidArgumentException
  */
-	public static function create($definition) {
-		if ($definition instanceof FabricateDefinition) {
-			return new FabricateDefinitionFactory($definition);
-		}
-		if ($definition instanceof Model) {
-			return new FabricateModelFactory($definition);
-		}
-		throw new InvalidArgumentException("FabricateFactory is not support instance");
-	}
+    public static function create($definition) {
+        if ($definition instanceof FabricateDefinition) {
+            return new FabricateDefinitionFactory($definition);
+        }
+        if ($definition instanceof Model) {
+            return new FabricateModelFactory($definition);
+        }
+        throw new InvalidArgumentException("FabricateFactory is not support instance");
+    }
 }

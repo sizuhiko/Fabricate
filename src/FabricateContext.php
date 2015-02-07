@@ -1,8 +1,10 @@
 <?php
-
-App::uses('FabricateSequence', 'Fabricate.Lib');
-App::uses('FabricateConfig', 'Fabricate.Lib');
-App::uses('Fabricate', 'Fabricate.Lib');
+/**
+ * Fabricate
+ * *
+ * @package    Fabricate
+ */
+namespace Fabricate;
 
 /**
  * Fabricator Context
@@ -14,27 +16,27 @@ class FabricateContext {
  *
  * @var array
  */
-	private $sequences = [];
+    private $sequences = [];
 
 /**
  * Trait use array
  *
  * @var array
  */
-	private $traits = [];
+    private $traits = [];
 
 /**
  * Fabricate config
  *
  * @var array 
  */
-	private $config;
+    private $config;
 
 /**
  * Fabricateing Model instance
  * @var Model
  */
-	private $model;
+    private $model;
 
 /**
  * Construct with Configuration
@@ -42,10 +44,10 @@ class FabricateContext {
  * @param array $conf configuration
  * @param Model $model model instance
  */
-	public function __construct($conf, $model = null) {
-		$this->config = $conf;
-		$this->model = $model;
-	}
+    public function __construct($conf, $model = null) {
+        $this->config = $conf;
+        $this->model = $model;
+    }
 
 /**
  * sequence allows you to get a series of numbers unique within the fabricate context.
@@ -57,24 +59,24 @@ class FabricateContext {
  *         you can pass it a block and the block response will be returned.
  * @return mixed generated sequence
  */
-	public function sequence($name, $start = null, $callback = null) {
-		if (is_callable($start)) {
-			$callback = $start;
-			$start = null;
-		}
-		if (!array_key_exists($name, $this->sequences)) {
-			if ($start === null) {
-				$start = $this->config->sequence_start;
-			}
-			$this->sequences[$name] = new FabricateSequence($start);
-		}
-		$ret = $this->sequences[$name]->current();
-		if (is_callable($callback)) {
-			$ret = $callback($ret);
-		}
-		$this->sequences[$name]->next();
-		return $ret;
-	}
+    public function sequence($name, $start = null, $callback = null) {
+        if (is_callable($start)) {
+            $callback = $start;
+            $start = null;
+        }
+        if (!array_key_exists($name, $this->sequences)) {
+            if ($start === null) {
+                $start = $this->config->sequence_start;
+            }
+            $this->sequences[$name] = new FabricateSequence($start);
+        }
+        $ret = $this->sequences[$name]->current();
+        if (is_callable($callback)) {
+            $ret = $callback($ret);
+        }
+        $this->sequences[$name]->next();
+        return $ret;
+    }
 
 /**
  * Add apply trait in the scope.
@@ -82,24 +84,24 @@ class FabricateContext {
  * @param string|array $name use trait name(s)
  * @return void
  */
-	public function traits($name) {
-		if (is_array($name)) {
-			$this->traits = array_merge($this->traits, $name);
-		} else {
-			$this->traits[] = $name;
-		}
-	}
+    public function traits($name) {
+        if (is_array($name)) {
+            $this->traits = array_merge($this->traits, $name);
+        } else {
+            $this->traits[] = $name;
+        }
+    }
 
 /**
  * Flush trait stack in the scope
  *
  * @return array flushed trait stack
  */
-	public function flashTraits() {
-		$traits = $this->traits;
-		$this->traits = [];
-		return $traits;
-	}
+    public function flashTraits() {
+        $traits = $this->traits;
+        $this->traits = [];
+        return $traits;
+    }
 
 /**
  * Only create model attributes array for association.
@@ -109,20 +111,20 @@ class FabricateContext {
  * @param mixed $callback callback or array can change fablicated data if you want to overwrite
  * @return array model attributes array.
  */
-	public function association($association, $recordCount = 1, $callback = null) {
-		if (!is_array($association)) {
-			$association = [$association, 'association' => $association];
-		}
-		$attributes = Fabricate::association($association[0], $recordCount, $callback);
-		if ($this->model) {
-			$associations = $this->model->getAssociated();
-			if (isset($associations[$association['association']])
-			&& $associations[$association['association']] !== 'hasMany'
-			&& !empty($attributes)) {
-				$attributes = $attributes[0];
-			}
-		}
-		return $attributes;
-	}
+    public function association($association, $recordCount = 1, $callback = null) {
+        if (!is_array($association)) {
+            $association = [$association, 'association' => $association];
+        }
+        $attributes = Fabricate::association($association[0], $recordCount, $callback);
+        if ($this->model) {
+            $associations = $this->model->getAssociated();
+            if (isset($associations[$association['association']])
+            && $associations[$association['association']] !== 'hasMany'
+            && !empty($attributes)) {
+                $attributes = $attributes[0];
+            }
+        }
+        return $attributes;
+    }
 
 }

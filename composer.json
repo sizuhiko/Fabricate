@@ -8,7 +8,16 @@
             "email": "sizuhiko@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Fabricate\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fabricate\\Test\\": "tests"
+        }
+    },
     "require": {
         "composer/installers": "*"
     }

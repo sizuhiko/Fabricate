@@ -1,4 +1,10 @@
 <?php
+/**
+ * Fabricate
+ * *
+ * @package    Fabricate
+ */
+namespace Fabricate;
 
 /**
  * Fabricator Configuration
@@ -10,26 +16,26 @@ class FabricateConfig {
  *
  * @var int
  */
-	public $sequence_start = 1;
+    public $sequence_start = 1;
 
 /**
  * validate either a boolean
  *
  * @var bool
  */
-	public $auto_validate = false;
+    public $auto_validate = false;
 
 /**
  * overwrites any primary key input with an empty value if true 
  *
  * @var bool
  */
-	public $filter_key = false;
+    public $filter_key = false;
 
 /**
  * connect to test datasouce if true
  *
  * @var bool
  */
-	public $testing = true;
+    public $testing = true;
 }
