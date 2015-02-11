@@ -3,23 +3,29 @@ namespace Test\Fabricate\Factory;
 
 use Fabricate\Factory\FabricateFactory;
 use Fabricate\Definition\FabricateDefinition;
-
-class FabricateFactoryTestPost extends AppModel {
-    public $useTable = 'posts'; 
-}
+use Fabricate\Model\FabricateModel;
 
 /**
  * FabricateFactory class test case
  */
 class FabricateFactoryTest extends \PHPUnit_Framework_TestCase {
-    public $fixtures = ['plugin.fabricate.post'];
+    public function setUp() {
+        $this->model = (new FabricateModel('Post'))
+            ->addColumn('id', 'integer')
+            ->addColumn('author_id', 'integer', ['null' => false])
+            ->addColumn('title', 'string', ['null' => false])
+            ->addColumn('body', 'text')
+            ->addColumn('published', 'string', ['limit' => 1])
+            ->addColumn('created', 'datetime')
+            ->addColumn('updated', 'datetime');
+    }
 
     public function testCreateModelFactory() {
-        $this->assertInstanceOf('FabricateModelFactory', FabricateFactory::create(ClassRegistry::init('FabricateFactoryTestPost')));
+        $this->assertInstanceOf('Fabricate\Factory\FabricateModelFactory', FabricateFactory::create($this->model));
     }
 
     public function testCreateDefinitionFactory() {
-        $this->assertInstanceOf('FabricateDefinitionFactory', FabricateFactory::create(new FabricateDefinition([])));
+        $this->assertInstanceOf('Fabricate\Factory\FabricateDefinitionFactory', FabricateFactory::create(new FabricateDefinition([])));
     }
 
     /**

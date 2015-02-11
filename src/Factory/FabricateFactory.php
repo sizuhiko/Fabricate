@@ -1,13 +1,14 @@
 <?php
 /**
  * Fabricate
- * *
+ *
  * @package    Fabricate
  * @subpackage Fabricate\Factory
  */
 namespace Fabricate\Factory;
 
 use Fabricate\Definition\FabricateDefinition;
+use Fabricate\Model\FabricateModel;
 
 /**
  * Fabricator Factory Proxy Class 
@@ -17,7 +18,7 @@ class FabricateFactory {
 /**
  * Create factory depends with definition
  *
- * @param mixed $definition FabricateDifinition or CakePHP Model instance.
+ * @param mixed $definition FabricateDifinition or FabricateModel instance.
  * @return FabricateAbstractFactory 
  * @throws InvalidArgumentException
  */
@@ -25,9 +26,9 @@ class FabricateFactory {
         if ($definition instanceof FabricateDefinition) {
             return new FabricateDefinitionFactory($definition);
         }
-        if ($definition instanceof Model) {
+        if ($definition instanceof FabricateModel) {
             return new FabricateModelFactory($definition);
         }
-        throw new InvalidArgumentException("FabricateFactory is not support instance");
+        throw new \InvalidArgumentException("FabricateFactory is not support instance");
     }
 }
