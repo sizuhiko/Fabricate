@@ -2,23 +2,30 @@
 namespace Test\Fabricate;
 
 use Fabricate\FabricateRegistry;
-
-class FabricateRegistryTestPost extends AppModel {
-    public $useTable = 'posts'; 
-}
+use Fabricate\Adaptor\FabricateArrayAdaptor;
+use Fabricate\Model\FabricateModel;
 
 /**
  * Fabricate class test case
  */
-class FabricateRegistryTest extends CakeTestCase {
-    public $fixtures = ['plugin.fabricate.post'];
-
+class FabricateRegistryTest extends \PHPUnit_Framework_TestCase {
     public function setUp() {
-        $this->Registry = new FabricateRegistry('FabricateRegistry');
+        $adaptor = new FabricateArrayAdaptor();
+        $adaptor::$definitions = [
+            'Post' => (new FabricateModel('Post'))
+                ->addColumn('id', 'integer')
+                ->addColumn('author_id', 'integer', ['null' => false])
+                ->addColumn('title', 'string', ['null' => false])
+                ->addColumn('body', 'text')
+                ->addColumn('published', 'string', ['limit' => 1])
+                ->addColumn('created', 'datetime')
+                ->addColumn('updated', 'datetime'),
+        ];
+        $this->Registry = new FabricateRegistry('FabricateRegistry', $adaptor);
     }
 
     public function testFindIfNotRegisterdAndExistsModel() {
-        $this->assertInstanceOf('FabricateRegistryTestPost', $this->Registry->find('FabricateRegistryTestPost'));
+        $this->assertEquals('Post', $this->Registry->find('Post')->getName());
     }
 
     public function testFindIfRegisteredObject() {
@@ -27,8 +34,8 @@ class FabricateRegistryTest extends CakeTestCase {
     }
 
     public function testFindIfRegisteredObjectOverwriteExistsModel() {
-        $this->Registry->register('FabricateRegistryTestPost', 'dummy');
-        $this->assertEquals('dummy', $this->Registry->find('FabricateRegistryTestPost'));
+        $this->Registry->register('Post', 'dummy');
+        $this->assertEquals('dummy', $this->Registry->find('Post'));
     }
 
     /**

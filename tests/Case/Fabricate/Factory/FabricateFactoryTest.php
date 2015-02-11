@@ -11,7 +11,7 @@ class FabricateFactoryTestPost extends AppModel {
 /**
  * FabricateFactory class test case
  */
-class FabricateFactoryTest extends CakeTestCase {
+class FabricateFactoryTest extends \PHPUnit_Framework_TestCase {
     public $fixtures = ['plugin.fabricate.post'];
 
     public function testCreateModelFactory() {

@@ -6,7 +6,7 @@ use Fabricate\Definition\FabricateDefinition;
 /**
  * FabricateDefinition class test case
  */
-class FabricateDefinitionTest extends CakeTestCase {
+class FabricateDefinitionTest extends \PHPUnit_Framework_TestCase {
     public function testRunCallbackDefinition() {
         $target = new FabricateDefinition(function($data, $world) {
             $this->assertEquals(['name'=>'taro'], $data);

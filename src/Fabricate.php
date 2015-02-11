@@ -1,7 +1,7 @@
 <?php
 /**
  * Fabricate
- * *
+ *
  * @package    Fabricate
  */
 namespace Fabricate;

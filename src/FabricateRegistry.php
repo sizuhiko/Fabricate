@@ -1,7 +1,7 @@
 <?php
 /**
  * Fabricate
- * *
+ *
  * @package    Fabricate
  */
 namespace Fabricate;
@@ -26,13 +26,21 @@ class FabricateRegistry {
     private $items;
 
 /**
+ * adaptor
+ *
+ * @var Fabricate\Adaptor\AbstractFabricateAdaptor
+ */
+    private $adaptor;
+
+/**
  * Construct with registry name
  *
  * @param string $name registry name
  * @return void
  */
-    public function __construct($name) {
+    public function __construct($name, $adaptor) {
         $this->name  = $name;
+        $this->adaptor = $adaptor;
         $this->items = [];
     }
 
@@ -49,19 +57,18 @@ class FabricateRegistry {
  * Find from registred or model by name
  *
  * @param string $name model name
- * @param bool $testing true if connect to test datasource, otherwise false
  * @return mixed registerd object
  * @throws InvalidArgumentException
  */
-    public function find($name, $testing = true) {
+    public function find($name) {
         if ($this->is_registered($name)) {
             return $this->items[$name];
         }
-        $model = ClassRegistry::init(['class' => $name, 'testing' => $testing], true);
+        $model = $this->adaptor->getModel($name);
         if ($model) {
             return $model;
         }
-        throw new InvalidArgumentException("{$name} not registered");
+        throw new \InvalidArgumentException("{$name} not registered");
     }
 
 /**

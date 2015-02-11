@@ -6,7 +6,7 @@ use Fabricate\FabricateSequence;
 /**
  * Fabricate class test case
  */
-class FabricateSequenceTest extends CakeTestCase {
+class FabricateSequenceTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->Sequence = new FabricateSequence(1);

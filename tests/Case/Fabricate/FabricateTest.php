@@ -28,7 +28,7 @@ class Post extends CakeTestModel {
 /**
  * Fabricate class test case
  */
-class FabricateTest extends CakeTestCase {
+class FabricateTest extends \PHPUnit_Framework_TestCase {
     public $fixtures = ['plugin.fabricate.post', 'plugin.fabricate.user'];
 
     public function setUp() {

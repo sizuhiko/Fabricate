@@ -7,7 +7,7 @@ use Fabricate\FabricateContext;
 /**
  * Fabricate class test case
  */
-class FabricateContextTest extends CakeTestCase {
+class FabricateContextTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->Config = new FabricateConfig();

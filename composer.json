@@ -21,5 +21,8 @@
     },
     "require": {
         "fzaninotto/faker": "~1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
     }
 }
