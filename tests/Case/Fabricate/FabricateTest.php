@@ -2,38 +2,38 @@
 namespace Test\Fabricate;
 
 use Fabricate\Fabricate;
-
-/**
- * User class
- *
- * @package       Cake.Test.Case.Model
- */
-class User extends CakeTestModel {
-    public $hasMany = [
-        'Post' => ['foreignKey' => 'author_id']
-    ];
-}
-
-/**
- * Post class
- *
- * @package       Cake.Test.Case.Model
- */
-class Post extends CakeTestModel {
-    public $belongsTo = [
-        'Author' => ['className' => 'User', 'foreignKey' => 'author_id'],
-    ];
-}
+use Fabricate\Adaptor\FabricateArrayAdaptor;
+use Fabricate\Model\FabricateModel;
 
 /**
  * Fabricate class test case
  */
 class FabricateTest extends \PHPUnit_Framework_TestCase {
-    public $fixtures = ['plugin.fabricate.post', 'plugin.fabricate.user'];
-
     public function setUp() {
         parent::setUp();
         Fabricate::clear();
+        $adaptor = new FabricateArrayAdaptor();
+        $adaptor::$definitions = [
+            'Post' => (new FabricateModel('Post'))
+                ->addColumn('id', 'integer')
+                ->addColumn('author_id', 'integer', ['null' => false])
+                ->addColumn('title', 'string', ['null' => false])
+                ->addColumn('body', 'text')
+                ->addColumn('published', 'string', ['limit' => 1])
+                ->addColumn('created', 'datetime')
+                ->addColumn('updated', 'datetime')
+                ->belongsTo('Author', 'author_id', 'User'),
+            'User' => (new FabricateModel('User'))
+                ->addColumn('id', 'integer')
+                ->addColumn('user', 'string', ['null' => true])
+                ->addColumn('password', 'string', ['null' => true])
+                ->addColumn('created', 'datetime')
+                ->addColumn('updated', 'datetime')
+                ->hasMany('Post', 'author_id'),
+        ];
+        Fabricate::config(function($config) use($adaptor) {
+            $config->adaptor = $adaptor;
+        });
     }
 
     public function testAttributesFor() {

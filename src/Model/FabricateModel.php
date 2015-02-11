@@ -15,6 +15,10 @@ class FabricateModel {
     private $modelName;
     /** Columns */
     private $columns = [];
+    /** belongsTo association */
+    private $belongsTo = [];
+    /** hasMany associations */
+    private $hasMany = [];
 
 /**
  * Construct
@@ -62,5 +66,39 @@ class FabricateModel {
  */
     public function getName() {
         return $this->modelName;
+    }
+
+/**
+ * Add hasMany association
+ *
+ * @param string $name Association Name
+ * @param string $foreignKey Forreign Key Column Name
+ * @param string $modelName If association name is not model name then should set Model Name.
+ * @return FabricateModel $this
+ */
+    public function hasMany($name, $foreignKey, $modelName=null) {
+        $this->addAssociation('hasMany', $name, $foreignKey, $modelName);
+        return $this;
+    }
+
+/**
+ * Set belongsTo association
+ *
+ * @param string $name Association Name
+ * @param string $foreignKey Forreign Key Column Name
+ * @param string $modelName If association name is not model name then should set Model Name.
+ * @return FabricateModel $this
+ */
+    public function belongsTo($name, $foreignKey, $modelName=null) {
+        $this->addAssociation('belongsTo', $name, $foreignKey, $modelName);
+        return $this;
+    }
+
+    private function addAssociation($association, $name, $foreignKey, $modelName=null) {
+        $target = $this->$association;
+        $target[$name] = ['foreignKey' => $foreignKey];
+        if($modelName) {
+            $target[$name]['className'] = $modelName;
+        }
     }
 }

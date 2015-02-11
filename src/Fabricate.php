@@ -59,7 +59,7 @@ class Fabricate {
         if (self::$_instance == null) {
             self::$_instance = new Fabricate();
             self::$_instance->config = new FabricateConfig();
-            self::$_instance->registry = new FabricateRegistry('Fabricate');
+            self::$_instance->registry = new FabricateRegistry('Fabricate', null);
             self::$_instance->traits = [];
         }
         return self::$_instance;
@@ -87,7 +87,9 @@ class Fabricate {
  * @return void
  */
     public static function config($callback) {
-        $callback(self::getInstance()->config);
+        $instance = self::getInstance();
+        $callback($instance->config);
+        $instance->registry->setAdaptor($instance->config->adaptor);
     }
 
 /**
@@ -184,13 +186,13 @@ class Fabricate {
             }
         }
         if (empty($name)) {
-            throw new InvalidArgumentException("name is empty");
+            throw new \InvalidArgumentException("name is empty");
         }
         if ($parent && !$instance->registry->is_registered($parent)) {
-            throw new InvalidArgumentException("parent `{$parent}` is not registered");
+            throw new \InvalidArgumentException("parent `{$parent}` is not registered");
         }
-        if ($base && in_array(ClassRegistry::init(['class' => $base, 'testing' => $instance->config->testing], true), [false, null])) {
-            throw new InvalidArgumentException("class `{$base}` is not found");
+        if ($base && in_array($instance->config->adaptor->getModel($base), [false, null])) {
+            throw new \InvalidArgumentException("class `{$base}` is not found");
         }
         $definition = new FabricateDefinition($define);
         if ($trait) {
@@ -201,7 +203,7 @@ class Fabricate {
             $base = $name;
         }
         $definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent, $instance->config->testing)):false;
-        $definition->parent = $base?FabricateFactory::create(ClassRegistry::init(['class' => $base, 'testing' => $instance->config->testing])):$definition->parent;
+        $definition->parent = $base?FabricateFactory::create($instance->config->adaptor->getModel($base)):$definition->parent;
         $definition->parent->setConfig(self::getInstance()->config);
 
         $instance->registry->register($name, $definition);

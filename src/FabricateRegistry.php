@@ -36,6 +36,7 @@ class FabricateRegistry {
  * Construct with registry name
  *
  * @param string $name registry name
+ * @param Fabricate\Adaptor\AbstractFabricateAdaptor $adaptor
  * @return void
  */
     public function __construct($name, $adaptor) {
@@ -90,5 +91,14 @@ class FabricateRegistry {
  */
     public function is_registered($name) {
         return array_key_exists($name, $this->items);
+    }
+
+/**
+ * Set Adaptor
+ *
+ * @param Fabricate\Adaptor\AbstractFabricateAdaptor $adaptor
+ */
+    public function setAdaptor($adaptor) {
+        $this->adaptor = $adaptor;
     }
 }

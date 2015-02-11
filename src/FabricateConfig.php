@@ -38,4 +38,11 @@ class FabricateConfig {
  * @var bool
  */
     public $testing = true;
+
+/**
+ * adaptor
+ *
+ * @var Fabricate\Adaptor\AbstractFabricateAdaptor
+ */
+	public $adaptor = null;
 }
