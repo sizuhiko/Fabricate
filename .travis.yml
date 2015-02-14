@@ -7,13 +7,7 @@ php:
 
 env:
   global:
-    - PLUGIN_NAME=Fabricate
-    - REQUIRE=""
-    - DB=mysql CAKE_VERSION=2.4
-
-  matrix:
-    - DB=mysql CAKE_VERSION=2.4
-    - DB=mysql CAKE_VERSION=2.5
+    - DEFAULT=1
 
 matrix:
   include:
@@ -23,20 +17,28 @@ matrix:
     - php: 5.4
       env:
         - PHPCS=1
-        - PHPCS_ARGS="-p -s --extensions=php --standard=ruleset.xml --ignore='*/tests/*' ."
     - php: 5.4
       env:
         - FOC_VALIDATE=1
 
 before_script:
-  - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
-  - ../travis/before_script.sh
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+
+  - sh -c "if [ '$PHPCS' = '1' ]; then composer require squizlabs/php_codesniffer; fi"
+
+  - sh -c "if [ '$COVERALLS' = '1' ]; then composer require --dev satooshi/php-coveralls:dev-master; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then mkdir -p build/logs; fi"
+
+  - phpenv rehash
+  - set +H
+  - cp phpunit.xml.dist phpunit.xml
 
 script:
-  - ../travis/script.sh
-
-after_success:
-  - ../travis/after_success.sh
+  - sh -c "if [ '$DEFAULT' = '1' ]; then phpunit --stderr; fi"
+  - sh -c "if [ '$PHPCS' = '1' ]; then vendor/bin/phpcs -p --extensions=php --standard=psr4 ./src; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then phpunit --stderr --coverage-clover build/logs/clover.xml; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then php vendor/bin/coveralls -c .coveralls.yml -v; fi"
 
 notifications:
   email: false
