@@ -205,7 +205,7 @@ class Fabricate {
         if (!$parent && !$base) {
             $base = $name;
         }
-        $definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent, $instance->config->testing)):false;
+        $definition->parent = $parent?FabricateFactory::create($instance->registry->find($parent)):false;
         $definition->parent = $base?FabricateFactory::create($instance->config->adaptor->getModel($base)):$definition->parent;
         $definition->parent->setConfig(self::getInstance()->config);
 
@@ -219,7 +219,7 @@ class Fabricate {
      * @return FabricateAbstractFactory
      */
     private function factory($name) {
-        $factory = FabricateFactory::create(self::getInstance()->registry->find($name, self::getInstance()->config->testing));
+        $factory = FabricateFactory::create(self::getInstance()->registry->find($name));
         $factory->setConfig(self::getInstance()->config);
         return $factory;
     }
