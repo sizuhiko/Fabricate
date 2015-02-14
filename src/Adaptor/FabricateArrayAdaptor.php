@@ -23,4 +23,20 @@ class FabricateArrayAdaptor extends AbstractFabricateAdaptor {
         }
         return null;
     }
+
+    /**
+     * @inherit
+     */
+    public function create($modelName, $attributes, $recordCount) {
+        $results = array_map(function($attribute) use($modelName) { return [$modelName => $attribute]; }, $attributes);
+        return $recordCount == 1 ? $results[0] : $results;
+    }
+
+    /**
+     * @inherit
+     */
+    public function build($modelName, $data) {
+        return [$modelName => $data];
+    }
+
 }

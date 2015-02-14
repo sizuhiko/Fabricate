@@ -19,6 +19,8 @@ class FabricateModel {
     private $belongsTo = [];
     /** hasMany associations */
     private $hasMany = [];
+    /** hasOne associations */
+    private $hasOne = [];
 
 /**
  * Construct
@@ -55,8 +57,17 @@ class FabricateModel {
  * @return FabricateModel $this
  */
     public function addColumn($columnName, $type, $options = []) {
-        $columns[$columnName] = ['type' => $type, 'options' => $options];
+        $this->columns[$columnName] = ['type' => $type, 'options' => $options];
         return $this;
+    }
+
+/**
+ * Get defined columns
+ *
+ * @return array
+ */
+    public function getColumns() {
+        return $this->columns;
     }
 
 /**
@@ -82,6 +93,19 @@ class FabricateModel {
     }
 
 /**
+ * Add hasOne association
+ *
+ * @param string $name Association Name
+ * @param string $foreignKey Forreign Key Column Name
+ * @param string $modelName If association name is not model name then should set Model Name.
+ * @return FabricateModel $this
+ */
+    public function hasOne($name, $foreignKey, $modelName=null) {
+        $this->addAssociation('hasOne', $name, $foreignKey, $modelName);
+        return $this;
+    }
+
+/**
  * Set belongsTo association
  *
  * @param string $name Association Name
@@ -94,11 +118,25 @@ class FabricateModel {
         return $this;
     }
 
+/**
+ * Get associated
+ *
+ * @return array
+ */
+    public function getAssociated() {
+        $associated = [];
+        foreach (['hasMany', 'hasOne', 'belongsTo'] as $association) {
+            foreach ($this->{$association} as $name => $options) {
+                $associated[$name] = $association;
+            }
+        }
+        return $associated;
+    }
+
     private function addAssociation($association, $name, $foreignKey, $modelName=null) {
-        $target = $this->$association;
-        $target[$name] = ['foreignKey' => $foreignKey];
+        $this->{$association}[$name] = ['foreignKey' => $foreignKey];
         if($modelName) {
-            $target[$name]['className'] = $modelName;
+            $this->{$association}[$name]['className'] = $modelName;
         }
     }
 }

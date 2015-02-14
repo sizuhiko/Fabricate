@@ -30,29 +30,21 @@ class FabricateModelFactory extends FabricateAbstractFactory {
  * {@inheritDoc}
  */
     public function create($attributes, $recordCount, $definition) {
-        foreach ($attributes as $data) {
-            $this->model->create($data, $this->config->filter_key);
-            $this->model->saveAssociated(null,  [
-                'validate' => $this->config->auto_validate,
-                'deep'     => true,
-            ]);
-        }
-        return $this->model;
+        return $this->config->adaptor->create($this->model->getName(), $attributes, $recordCount);
     }
 
 /**
  * {@inheritDoc}
  */
     public function build($data, $definition) {
-        $this->model->create($data[0], $this->config->filter_key);
-        return $this->model;
+        return $this->config->adaptor->build($this->model->getName(), $data[0], $this->model);
     }
 
 /**
  * {@inheritDoc}
  */
     public function attributes_for($recordCount, $definition) {
-        return $this->_generateRecords($this->model->schema(), $recordCount, $definition, $this->model);
+        return $this->_generateRecords($this->model->getColumns(), $recordCount, $definition, $this->model);
     }
 
 /**
@@ -65,23 +57,17 @@ class FabricateModelFactory extends FabricateAbstractFactory {
             }
             $insert = '';
             switch ($fieldInfo['type']) {
+                case 'biginteger':
                 case 'integer':
                 case 'float':
+                case 'decimal':
                     $insert = $this->config->sequence_start + $index;
                     break;
                 case 'string':
                 case 'binary':
-                    $isPrimaryUuid = (
-                        isset($fieldInfo['key']) && strtolower($fieldInfo['key']) === 'primary' &&
-                        isset($fieldInfo['length']) && $fieldInfo['length'] == 36
-                    );
-                    if ($isPrimaryUuid) {
-                        $insert = String::uuid();
-                    } else {
-                        $insert = "Lorem ipsum dolor sit amet";
-                        if (!empty($fieldInfo['length'])) {
-                            $insert = substr($insert, 0, (int)$fieldInfo['length'] - 2);
-                        }
+                    $insert = $this->config->faker->realText();
+                    if(!empty($fieldInfo['options']['limit'])) {
+                        $insert = substr($insert, 0, (int)$fieldInfo['options']['limit']);
                     }
                     break;
                 case 'timestamp':
@@ -97,16 +83,11 @@ class FabricateModelFactory extends FabricateAbstractFactory {
                     $insert = date('H:i:s');
                     break;
                 case 'boolean':
-                    $insert = 1;
+                    $insert = true;
                     break;
                 case 'text':
-                    $insert = "Lorem ipsum dolor sit amet, aliquet feugiat.";
-                    $insert .= " Convallis morbi fringilla gravida,";
-                    $insert .= " phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin";
-                    $insert .= " venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla";
-                    $insert .= " vestibulum massa neque ut et, id hendrerit sit,";
-                    $insert .= " feugiat in taciti enim proin nibh, tempor dignissim, rhoncus";
-                    $insert .= " duis vestibulum nunc mattis convallis.";
+                    $maxNbChars = !empty($fieldInfo['options']['limit']) ? $fieldInfo['options']['limit'] : 200;
+                    $insert = $this->config->faker->text($maxNbChars);
                     break;
             }
             $record[$field] = $insert;

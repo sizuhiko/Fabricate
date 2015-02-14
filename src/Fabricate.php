@@ -90,6 +90,9 @@ class Fabricate {
         $instance = self::getInstance();
         $callback($instance->config);
         $instance->registry->setAdaptor($instance->config->adaptor);
+        if($instance->config->faker == null) {
+            $instance->config->faker = \Faker\Factory::create();
+        }
     }
 
 /**

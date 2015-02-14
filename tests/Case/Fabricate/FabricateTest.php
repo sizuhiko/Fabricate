@@ -17,7 +17,7 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
             'Post' => (new FabricateModel('Post'))
                 ->addColumn('id', 'integer')
                 ->addColumn('author_id', 'integer', ['null' => false])
-                ->addColumn('title', 'string', ['null' => false])
+                ->addColumn('title', 'string', ['null' => false, 'limit' => 50])
                 ->addColumn('body', 'text')
                 ->addColumn('published', 'string', ['limit' => 1])
                 ->addColumn('created', 'datetime')
@@ -25,8 +25,8 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
                 ->belongsTo('Author', 'author_id', 'User'),
             'User' => (new FabricateModel('User'))
                 ->addColumn('id', 'integer')
-                ->addColumn('user', 'string', ['null' => true])
-                ->addColumn('password', 'string', ['null' => true])
+                ->addColumn('user', 'string', ['null' => true, 'limit' => 255])
+                ->addColumn('password', 'string', ['null' => true, 'limit' => 255])
                 ->addColumn('created', 'datetime')
                 ->addColumn('updated', 'datetime')
                 ->hasMany('Post', 'author_id'),
@@ -41,101 +41,85 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
             return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
         });
         $this->assertCount(10, $results);
-        $expected = [
-            "id"=>5, 
-            "author_id"=>5, 
-            "title"=>"Lorem ipsum dolor sit amet",
-            "body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-            "published"=>"Lorem ipsum dolor sit ame",
-            "created"=>"2013-10-09 12:40:28",
-            "updated"=>"2013-10-09 12:40:28"
-        ];
-        $this->assertEquals($expected, $results[4]);
+        for ($i = 0; $i < 10; $i++) { 
+            $this->assertEquals($i+1, $results[$i]['id']);
+            $this->assertEquals($i+1, $results[$i]['author_id']);
+            $this->assertEquals(50, strlen($results[$i]['title']));
+            $this->assertNotEmpty($results[$i]['body']);
+            $this->assertEquals(1, strlen($results[$i]['published']));
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['created']);
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['updated']);
+        }
     }
 
     public function testBuild() {
         $result = Fabricate::build('Post', function($data){
             return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
         });
-        $this->assertInstanceOf('Post', $result);
-        $expected = [
-            "id"=>1, 
-            "author_id"=>1, 
-            "title"=>"Lorem ipsum dolor sit amet",
-            "body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-            "published"=>"Lorem ipsum dolor sit ame",
-            "created"=>"2013-10-09 12:40:28",
-            "updated"=>"2013-10-09 12:40:28"
-        ];
-        $this->assertEquals($expected, $result->data['Post']);
+        $this->assertEquals(1, $result['Post']['id']);
+        $this->assertEquals(1, $result['Post']['author_id']);
+        $this->assertEquals(50, strlen($result['Post']['title']));
+        $this->assertNotEmpty($result['Post']['body']);
+        $this->assertEquals(1, strlen($result['Post']['published']));
+        $this->assertEquals('2013-10-09 12:40:28', $result['Post']['created']);
+        $this->assertEquals('2013-10-09 12:40:28', $result['Post']['updated']);
     }
 
     public function testCreate() {
-        Fabricate::create('Post', 10, function($data){
+        $results = Fabricate::create('Post', 10, function($data){
             return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
         });
-        $model = ClassRegistry::init('Post');
-        $results = $model->find('all');
         $this->assertCount(10, $results);
-
-        $expected = [
-            "id"=>'5', 
-            "author_id"=>'5', 
-            "title"=>"Lorem ipsum dolor sit amet",
-            "body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-            "published"=>"L",
-            "created"=>"2013-10-09 12:40:28",
-            "updated"=>"2013-10-09 12:40:28"
-        ];
-        $this->assertEquals($expected, $results[4]['Post']);
+        for ($i = 0; $i < 10; $i++) { 
+            $this->assertEquals($i+1, $results[$i]['Post']['id']);
+            $this->assertEquals($i+1, $results[$i]['Post']['author_id']);
+            $this->assertEquals(50, strlen($results[$i]['Post']['title']));
+            $this->assertNotEmpty($results[$i]['Post']['body']);
+            $this->assertEquals(1, strlen($results[$i]['Post']['published']));
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['Post']['created']);
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['Post']['updated']);
+        }
     }
 
     public function testAttributesForWithArrayOption() {
         $results = Fabricate::attributes_for('Post', 10, ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"]);
         $this->assertCount(10, $results);
-        $expected = [
-            "id"=>5, 
-            "author_id"=>5, 
-            "title"=>"Lorem ipsum dolor sit amet",
-            "body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-            "published"=>"Lorem ipsum dolor sit ame",
-            "created"=>"2013-10-09 12:40:28",
-            "updated"=>"2013-10-09 12:40:28"
-        ];
-        $this->assertEquals($expected, $results[4]);
+        for ($i = 0; $i < 10; $i++) { 
+            $this->assertEquals($i+1, $results[$i]['id']);
+            $this->assertEquals($i+1, $results[$i]['author_id']);
+            $this->assertEquals(50, strlen($results[$i]['title']));
+            $this->assertNotEmpty($results[$i]['body']);
+            $this->assertEquals(1, strlen($results[$i]['published']));
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['created']);
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['updated']);
+        }
     }
 
     public function testBuildWithArrayOption() {
         $result = Fabricate::build('Post', ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"]);
-        $this->assertInstanceOf('Post', $result);
-        $expected = [
-            "id"=>1, 
-            "author_id"=>1, 
-            "title"=>"Lorem ipsum dolor sit amet",
-            "body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-            "published"=>"Lorem ipsum dolor sit ame",
-            "created"=>"2013-10-09 12:40:28",
-            "updated"=>"2013-10-09 12:40:28"
-        ];
-        $this->assertEquals($expected, $result->data['Post']);
+        $this->assertEquals(1, $result['Post']['id']);
+        $this->assertEquals(1, $result['Post']['author_id']);
+        $this->assertEquals(50, strlen($result['Post']['title']));
+        $this->assertNotEmpty($result['Post']['body']);
+        $this->assertEquals(1, strlen($result['Post']['published']));
+        $this->assertEquals('2013-10-09 12:40:28', $result['Post']['created']);
+        $this->assertEquals('2013-10-09 12:40:28', $result['Post']['updated']);
     }
 
     public function testCreateWithArrayOption() {
-        Fabricate::create('Post', 10, ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"]);
-        $model = ClassRegistry::init('Post');
-        $results = $model->find('all');
+        $results = Fabricate::create('Post', 10, ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"]);
         $this->assertCount(10, $results);
 
-        $expected = [
-            "id"=>'5', 
-            "author_id"=>'5', 
-            "title"=>"Lorem ipsum dolor sit amet",
-            "body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-            "published"=>"L",
-            "created"=>"2013-10-09 12:40:28",
-            "updated"=>"2013-10-09 12:40:28"
-        ];
-        $this->assertEquals($expected, $results[4]['Post']);
+        $this->assertCount(10, $results);
+        for ($i = 0; $i < 10; $i++) { 
+            $this->assertEquals($i+1, $results[$i]['Post']['id']);
+            $this->assertEquals($i+1, $results[$i]['Post']['author_id']);
+            $this->assertEquals(50, strlen($results[$i]['Post']['title']));
+            $this->assertNotEmpty($results[$i]['Post']['body']);
+            $this->assertEquals(1, strlen($results[$i]['Post']['published']));
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['Post']['created']);
+            $this->assertEquals('2013-10-09 12:40:28', $results[$i]['Post']['updated']);
+        }
     }
 
     public function testConfigureSequenceStart() {
@@ -193,63 +177,46 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('5', $results[0]['author_id']);
     }
 
-    public function testCreateOverwritesAnyPrimaryKeyInputWithAnEmptyIfFilterKeyIsTrue() {
-        Fabricate::config(function($config) {
-            $config->filter_key = true;
-        });
-        Fabricate::create('Post', ["id"=>5,"created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"]);
-        $model = ClassRegistry::init('Post');
-        $results = $model->find('all');
-        $this->assertEquals(1, $results[0]['Post']['id']);
-    }
-
     public function testDefineNameOnlyOption() {
         Fabricate::define('Post', ['published'=>'1']);
         $results = Fabricate::attributes_for('Post');
         $this->assertEquals('1', $results[0]['published']);
     }
 
-    public function testSaveWithAssociation() {
-        Fabricate::create('User', function($data, $world) {
+    public function testCreateWithAssociation() {
+        $results = Fabricate::create('User', function($data, $world) {
             return [
                 'user' => 'taro',
                 'Post' => $world->association('Post', 3, ['id'=>false,'author_id'=>false]),
             ];
         });
 
-        $model = ClassRegistry::init('User');
-        $results = $model->find('first', ['contain'=>['Post']]);
         $this->assertEquals('taro', $results['User']['user']);
-        $this->assertCount(3, $results['Post']);
+        $this->assertCount(3, $results['User']['Post']);
     }
 
-    public function testSaveWithDefinedAssociation() {
+    public function testCreateWithDefinedAssociation() {
         Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
-        Fabricate::create('User', function($data, $world) {
+        $results = Fabricate::create('User', function($data, $world) {
             return [
                 'user' => 'taro',
                 'Post' => $world->association(['PublishedPost', 'association'=>'Post'], 3, ['id'=>false,'author_id'=>false]),
             ];
         });
 
-        $model = ClassRegistry::init('User');
-        $results = $model->find('first', ['contain'=>['Post']]);
         $this->assertEquals('taro', $results['User']['user']);
-        $this->assertCount(3, $results['Post']);
+        $this->assertCount(3, $results['User']['Post']);
     }
 
-    public function testSaveWithBelongsToAssociation() {
+    public function testCreateWithBelongsToAssociation() {
         Fabricate::define(['PublishedPost', 'class'=>'Post'], ['published'=>'1']);
-        Fabricate::create('PublishedPost', 3, function($data, $world) {
+        $results = Fabricate::create('PublishedPost', 3, function($data, $world) {
             return [
                 'Author' => $world->association(['User', 'association'=>'Author'], ['id'=>1,'user'=>'taro']),
             ];
         });
 
-        $model = ClassRegistry::init('User');
-        $results = $model->find('first', ['contain'=>['Post']]);
-        $this->assertEquals('taro', $results['User']['user']);
-        $this->assertCount(3, $results['Post']);
+        $this->assertEquals('taro', $results[0]['Post']['Author']['user']);
     }
 
     public function testDefineAndUseTrait() {
@@ -278,18 +245,16 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
             $world->traits('published');
             return ['title'=>$world->sequence('title',function($i) { return "Title{$i}"; })];
         });
-        Fabricate::create('User', function($data, $world) {
+        $results = Fabricate::create('User', function($data, $world) {
             return [
                 'user' => 'taro',
                 'Post' => Fabricate::association('PublishedPost', 3, ['id'=>false,'author_id'=>false]),
             ];
         });
 
-        $model = ClassRegistry::init('User');
-        $results = $model->find('first', ['contain'=>['Post']]);
         $this->assertEquals('taro', $results['User']['user']);
-        $this->assertEquals(['1','1','1'], Hash::extract($results, 'Post.{n}.published'));
-        $this->assertEquals(['Title1','Title2','Title3'], Hash::extract($results, 'Post.{n}.title'));
+        $this->assertEquals(['1','1','1'], array_map(function($post) { return $post['published']; }, $results['User']['Post']));
+        $this->assertEquals(['Title1','Title2','Title3'], array_map(function($post) { return $post['title']; }, $results['User']['Post']));
     }
 
 }

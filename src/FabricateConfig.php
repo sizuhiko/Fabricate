@@ -45,4 +45,13 @@ class FabricateConfig {
  * @var Fabricate\Adaptor\AbstractFabricateAdaptor
  */
 	public $adaptor = null;
+
+/**
+ * Faker default instance.
+ * The locale en_EN.
+ * If you want to change locale then overwrite the value.
+ *
+ * @var Faker\Factory
+ */
+	public $faker = null;
 }
