@@ -12,36 +12,36 @@ namespace Fabricate\Definition;
  */
 class FabricateDefinition {
 
-/**
- * definition for fabrication
- *
- * @var callback|array|false
- */
+    /**
+     * definition for fabrication
+     *
+     * @var callback|array|false
+     */
     private $define = false;
 
-/**
- * parent defnition
- *
- * @var FabricateDefinition|false
- */
+    /**
+     * parent defnition
+     *
+     * @var FabricateDefinition|false
+     */
     public $parent = false;
 
-/**
- * Construct
- *
- * @param mixed $define callback or attributes
- */
+    /**
+     * Construct
+     *
+     * @param mixed $define callback or attributes
+     */
     public function __construct($define) {
         $this->define = $define;
     }
 
-/**
- * Run to apply this definition 
- *
- * @param array $data data
- * @param FabricateContext $world fabricate context
- * @return array applied data
- */
+    /**
+     * Run to apply this definition 
+     *
+     * @param array $data data
+     * @param FabricateContext $world fabricate context
+     * @return array applied data
+     */
     public function run($data, $world) {
         $result = [];
         if (is_callable($this->define)) {

@@ -12,23 +12,23 @@ namespace Fabricate\Factory;
  */
 class FabricateDefinitionFactory extends FabricateAbstractFactory {
 
-/**
- * @var FabricateDefinition
- */
+    /**
+     * @var FabricateDefinition
+     */
     private $definition;
 
-/**
- * Construct
- *
- * @param FabricateDefinition $definition definition instance
- */
+    /**
+     * Construct
+     *
+     * @param FabricateDefinition $definition definition instance
+     */
     public function __construct($definition) {
         $this->definition = $definition;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function create($attributes, $recordCount, $definition) {
         if ($this->definition->parent) {
             return $this->definition->parent->create($attributes, $recordCount, $definition);
@@ -36,9 +36,9 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
         return null;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function build($data, $definition) {
         if ($this->definition->parent) {
             return $this->definition->parent->build($attributes, $definition);
@@ -46,9 +46,9 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
         return null;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function attributes_for($recordCount, $definition) {
         if ($this->definition->parent) {
             if (is_array($definition)) {
@@ -62,9 +62,9 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
         return $this->_generateRecords([], $recordCount, $definition, false);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     protected function fakeRecord($params, $index) {
         return [];
     }

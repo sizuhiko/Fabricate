@@ -15,13 +15,13 @@ use Fabricate\Model\FabricateModel;
  */
 class FabricateFactory {
 
-/**
- * Create factory depends with definition
- *
- * @param mixed $definition FabricateDifinition or FabricateModel instance.
- * @return FabricateAbstractFactory 
- * @throws InvalidArgumentException
- */
+	/**
+	 * Create factory depends with definition
+	 *
+	 * @param mixed $definition FabricateDifinition or FabricateModel instance.
+	 * @return FabricateAbstractFactory 
+	 * @throws InvalidArgumentException
+	 */
     public static function create($definition) {
         if ($definition instanceof FabricateDefinition) {
             return new FabricateDefinitionFactory($definition);

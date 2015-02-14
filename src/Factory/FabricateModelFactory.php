@@ -12,44 +12,44 @@ namespace Fabricate\Factory;
  */
 class FabricateModelFactory extends FabricateAbstractFactory {
 
-/**
- * @var Model CakePHP Model instance
- */
+    /**
+     * @var Model CakePHP Model instance
+     */
     private $model;
 
-/**
- * Construct
- *
- * @param Model $model CakePHP Model instance
- */
+    /**
+     * Construct
+     *
+     * @param Model $model CakePHP Model instance
+     */
     public function __construct($model) {
         $this->model = $model;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function create($attributes, $recordCount, $definition) {
         return $this->config->adaptor->create($this->model->getName(), $attributes, $recordCount);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function build($data, $definition) {
         return $this->config->adaptor->build($this->model->getName(), $data[0], $this->model);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function attributes_for($recordCount, $definition) {
         return $this->_generateRecords($this->model->getColumns(), $recordCount, $definition, $this->model);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     protected function fakeRecord($tableInfo, $index) {
         foreach ($tableInfo as $field => $fieldInfo) {
             if (empty($fieldInfo['type'])) {

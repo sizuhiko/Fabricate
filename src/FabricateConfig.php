@@ -11,47 +11,47 @@ namespace Fabricate;
  */
 class FabricateConfig {
 
-/**
- * start number for $world->sequence()
- *
- * @var int
- */
+    /**
+     * start number for $world->sequence()
+     *
+     * @var int
+     */
     public $sequence_start = 1;
 
-/**
- * validate either a boolean
- *
- * @var bool
- */
+    /**
+     * validate either a boolean
+     *
+     * @var bool
+     */
     public $auto_validate = false;
 
-/**
- * overwrites any primary key input with an empty value if true 
- *
- * @var bool
- */
+    /**
+     * overwrites any primary key input with an empty value if true 
+     *
+     * @var bool
+     */
     public $filter_key = false;
 
-/**
- * connect to test datasouce if true
- *
- * @var bool
- */
+    /**
+     * connect to test datasouce if true
+     *
+     * @var bool
+     */
     public $testing = true;
 
-/**
- * adaptor
- *
- * @var Fabricate\Adaptor\AbstractFabricateAdaptor
- */
-	public $adaptor = null;
+    /**
+     * adaptor
+     *
+     * @var Fabricate\Adaptor\AbstractFabricateAdaptor
+     */
+    public $adaptor = null;
 
-/**
- * Faker default instance.
- * The locale en_EN.
- * If you want to change locale then overwrite the value.
- *
- * @var Faker\Factory
- */
-	public $faker = null;
+    /**
+     * Faker default instance.
+     * The locale en_EN.
+     * If you want to change locale then overwrite the value.
+     *
+     * @var Faker\Factory
+     */
+    public $faker = null;
 }
