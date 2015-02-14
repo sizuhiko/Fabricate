@@ -34,7 +34,7 @@ class FabricateContext {
 
     /**
      * Fabricateing Model instance
-     * @var Model
+     * @var Fabricate\Model\FabricateModel
      */
     private $model;
 
@@ -42,7 +42,7 @@ class FabricateContext {
      * Construct with Configuration
      *
      * @param array $conf configuration
-     * @param Model $model model instance
+     * @param Fabricate\Model\FabricateModel $model model instance
      */
     public function __construct($conf, $model = null) {
         $this->config = $conf;

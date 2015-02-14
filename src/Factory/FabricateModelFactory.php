@@ -13,14 +13,14 @@ namespace Fabricate\Factory;
 class FabricateModelFactory extends FabricateAbstractFactory {
 
     /**
-     * @var Model CakePHP Model instance
+     * @var Fabricate\Model\FabricateModel FabricateModel instance
      */
     private $model;
 
     /**
      * Construct
      *
-     * @param Model $model CakePHP Model instance
+     * @param Fabricate\Model\FabricateModel $model FabricateModel instance
      */
     public function __construct($model) {
         $this->model = $model;

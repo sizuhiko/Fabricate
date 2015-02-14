@@ -10,8 +10,8 @@ use Fabricate\Factory\FabricateFactory;
 use Fabricate\Definition\FabricateDefinition;
 
 /**
- * Fabricator for CakePHP model.
- * This is inspired RSpec fablicator.
+ * Fabricator for model.
+ * This is inspired RSpec fablicator and factory-girl from the Ruby world.
  */
 class Fabricate {
 
