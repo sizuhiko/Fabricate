@@ -3,13 +3,12 @@
 Fabricate
 =========
 
-CakePHP data generator for Testing
+PHP data generator for Testing
 
 It's inspired on [Fabrication](https://github.com/paulelliott/fabrication) and [factory-girl](https://github.com/thoughtbot/factory_girl) from the Ruby world.
 
-Fabricate is a simple fake object generation plugin for CakePHP.
+Fabricate is a simple fake object generation core library for PHP.
 Quickly Fabricate objects as needed anywhere in your app or test case.
-Generation method(Lib/Fabricate#_generateRecords()) cited FixtureTask of CakePHP.
 
 ## Install 
 
@@ -17,22 +16,28 @@ Add require-dev in your composer.json
 
 `composer require --dev sizuhiko/fabricate`
 
-
-Add bootstrap
-
-```php
-CakePlugin::load('Fabricate');
-```
-
 ## Usage
 
-### The Basics
+### Adaptor
 
-Include Fabricate class using App::uses on your test file
+At first, Fabricate require to config for using.
+For example, to override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml 
 
 ```php
-App::uses('Fabricate', 'Fabricate.Lib');
+Fabricate::config(function($config) {
+    $config->adaptor = new Fabricate\Adaptor\CakePHPAdaptor();
+});
 ```
+
+Fabricate doesn't provide adaptors.
+If you will make adaptor of any frameworks, send us your pull request.
+The pull request will include suggestion into composer.json and link of repository on README(Comunity Adaptors).
+
+#### Comunity Adaptors
+
+- TODO:
+
+### The Basics
 
 The simplest way to generate objects
 
@@ -69,9 +74,8 @@ To override these settings, put a bootstrap.php in your app folder and append th
 ```
 Fabricate::config(function($config) {
     $config->sequence_start = 1;
-    $config->auto_validate = false;
-    $config->filter_key = false;
-    $config->testing = true;
+    $config->adaptor = new Fabricate\Adaptor\CakePHPAdaptor();
+    $config->faker = \Faker\Factory::create('ja_JP');
 });
 ```
 
@@ -84,33 +88,23 @@ This can still be overridden for specific sequences.
 
 `Default: 1`
 
-##### auto_validate
+##### adaptor
 
-Indicates whether or not to validate before creating.
-see: CakePHP's Model::save()
+Adapters ease the population of databases through the Database accessor provided by an ORM library(or framework).
 
-`Default: false`
+`Default: null`
 
-##### filter_key
+##### faker
 
-filter_key If true, overwrites any primary key input with an empty value.
-see: CakePHP's Model::create()
+Allow you to specify the default Faker instance to return localized data.
 
-`Default: false`
-
-##### testing
-
-testing If false, uses create seed data to default database with using Fabricate.
-All model instance created by CalssRegistry::init('modelName', ['testing'=>false]).
-see: CakePHP's ClassRegistry::init()
-
-`Default: true`
+`Default: default locale(en_EN) instance`
 
 ### Generate model attributes as array (not saved)
 
 `Fabricate::attributes_for(:model_name, :number_of_generation, :array_or_callback)` generate only attributes.
 
-* model_name: CakePHP Model class name.
+* model_name: Model class name.
 * number_of_generation: Generated number of records
 * array_or_callback: it can override each generated attributes
 
@@ -140,7 +134,7 @@ array (
 
 `Fabricate::build(:model_name, :array_or_callback)` generate a model instance (using ClassRegistry::init).
 
-* model_name: CakePHP Model class name.
+* model_name: Model class name.
 * array_or_callback: it can override each generated attributes
 
 #### Example
@@ -150,14 +144,7 @@ $result = Fabricate::build('Post', function($data){
     return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
 });
 
-// $results is followings :
-AppModel::__set_state(array(
-   'useDbConfig' => 'default',
-   'useTable' => 'posts',
-   'id' => 1,
-   'data' => 
-  array (
-    'Post' => 
+// $results are depends adaptor result.
  ......
 ```
 
@@ -165,7 +152,7 @@ AppModel::__set_state(array(
 
 `Fabricate::create(:model_name, :number_of_generation, :array_or_callback)` generate and save records to database.
 
-* model_name: CakePHP Model class name.
+* model_name: Model class name.
 * number_of_generation: Generated number of records
 * array_or_callback: it can override each generated attributes
 
@@ -347,8 +334,8 @@ If you need to reset fabricate back to its original state after it has been load
 Fabricate::clear();
 ```
 
-## Contributing to this Plugin
+## Contributing to this Library
 
-Please feel free to contribute to the plugin with new issues, requests, unit tests and code fixes or new features.
+Please feel free to contribute to the library with new issues, requests, unit tests and code fixes or new features.
 If you want to contribute some code, create a feature branch from develop, and send us your pull request.
 
