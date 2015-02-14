@@ -13,7 +13,8 @@ use Fabricate\Definition\FabricateDefinition;
  * Fabricator for model.
  * This is inspired RSpec fablicator and factory-girl from the Ruby world.
  */
-class Fabricate {
+class Fabricate
+{
 
     /**
      * instance for singlethon
@@ -55,7 +56,8 @@ class Fabricate {
      *
      * @return Fabricate
      */
-    private static function getInstance() {
+    private static function getInstance()
+    {
         if (self::$_instance == null) {
             self::$_instance = new Fabricate();
             self::$_instance->config = new FabricateConfig();
@@ -68,7 +70,8 @@ class Fabricate {
     /**
      * Override constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
@@ -76,21 +79,23 @@ class Fabricate {
      *
      * @return void
      */
-    public static function clear() {
+    public static function clear()
+    {
         self::$_instance = null;
     }
 
     /**
      * To override these settings
      *
-     * @param mixed $callback can override $config(class of FabricateConfig) attributes 
+     * @param mixed $callback can override $config(class of FabricateConfig) attributes
      * @return void
      */
-    public static function config($callback) {
+    public static function config($callback)
+    {
         $instance = self::getInstance();
         $callback($instance->config);
         $instance->registry->setAdaptor($instance->config->adaptor);
-        if($instance->config->faker == null) {
+        if ($instance->config->faker == null) {
             $instance->config->faker = \Faker\Factory::create();
         }
     }
@@ -98,12 +103,13 @@ class Fabricate {
     /**
      * Create and Save fablicated model data to database.
      *
-     * @param string $modelName name of model or defined 
+     * @param string $modelName name of model or defined
      * @param mixed $recordCount $recordCount number for creation or $callback if not require $recordCount
      * @param mixed $callback callback can chenge fablicated data if you want to overwrite
      * @return mixed results of creation
      */
-    public static function create($modelName, $recordCount = 1, $callback = null) {
+    public static function create($modelName, $recordCount = 1, $callback = null)
+    {
         $attributes = self::attributes_for($modelName, $recordCount, $callback);
         $instance = self::getInstance();
         $definition = $instance->definition($recordCount, $callback);
@@ -113,11 +119,12 @@ class Fabricate {
     /**
      * Only create a model instance.
      *
-     * @param string $modelName name of model or defined 
+     * @param string $modelName name of model or defined
      * @param mixed $callback callback can chenge fablicated data if you want to overwrite
      * @return Model Initializes the model for writing a new record
      */
-    public static function build($modelName, $callback = null) {
+    public static function build($modelName, $callback = null)
+    {
         $data = self::attributes_for($modelName, 1, $callback);
         $instance = self::getInstance();
         $definition = $instance->definition(1, $callback);
@@ -126,12 +133,13 @@ class Fabricate {
     /**
      * Only create model attributes array.
      *
-     * @param string $modelName name of model or defined 
+     * @param string $modelName name of model or defined
      * @param mixed $recordCount $recordCount number for creation or $callback if not require $recordCount
      * @param mixed $callback callback can chenge fablicated data if you want to overwrite
      * @return array model attributes array.
      */
-    public static function attributes_for($modelName, $recordCount = 1, $callback = null) {
+    public static function attributes_for($modelName, $recordCount = 1, $callback = null)
+    {
         $instance = self::getInstance();
         $instance->factory = $instance->factory($modelName);
         $definition = $instance->definition($recordCount, $callback);
@@ -142,12 +150,13 @@ class Fabricate {
     /**
      * Only create model attributes array for association.
      *
-     * @param string $modelName name of model or defined 
+     * @param string $modelName name of model or defined
      * @param mixed $recordCount $recordCount number for creation or $callback if not require $recordCount
      * @param mixed $callback callback can chenge fablicated data if you want to overwrite
      * @return array model attributes array.
      */
-    public static function association($modelName, $recordCount = 1, $callback = null) {
+    public static function association($modelName, $recordCount = 1, $callback = null)
+    {
         $instance = self::getInstance();
         $factory = $instance->factory($modelName);
         $definition = $instance->definition($recordCount, $callback);
@@ -160,7 +169,8 @@ class Fabricate {
      *
      * @return array registed trait definition
      */
-    public static function traits() {
+    public static function traits()
+    {
         return self::getInstance()->traits;
     }
 
@@ -172,7 +182,8 @@ class Fabricate {
      * @return void
      * @throws InvalidArgumentException
      */
-    public static function define($name, $define) {
+    public static function define($name, $define)
+    {
         $instance = self::getInstance();
         $parent = false;
         $base   = false;
@@ -218,7 +229,8 @@ class Fabricate {
      * @param string $name name
      * @return FabricateAbstractFactory
      */
-    private function factory($name) {
+    private function factory($name)
+    {
         $factory = FabricateFactory::create(self::getInstance()->registry->find($name));
         $factory->setConfig(self::getInstance()->config);
         return $factory;
@@ -230,7 +242,8 @@ class Fabricate {
      * @param mixed $recordCount number for creation or $callback if not require $recordCount
      * @return int
      */
-    private function recordCount($recordCount) {
+    private function recordCount($recordCount)
+    {
         if (is_callable($recordCount) || is_array($recordCount)) {
             $recordCount = 1;
         }
@@ -244,7 +257,8 @@ class Fabricate {
      * @param callback|array $callback define block or array
      * @return FabricateDefinition created definition
      */
-    private function definition($recordCount, $callback) {
+    private function definition($recordCount, $callback)
+    {
         if (is_callable($recordCount) || is_array($recordCount)) {
             $callback = $recordCount;
         }

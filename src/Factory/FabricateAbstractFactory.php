@@ -13,7 +13,8 @@ use Fabricate\Fabricate;
 /**
  * FabricateAbstractFactory class
  */
-abstract class FabricateAbstractFactory {
+abstract class FabricateAbstractFactory
+{
 
     /**
      * Create and Save fablicated model data to database.
@@ -60,7 +61,8 @@ abstract class FabricateAbstractFactory {
      * @param array $config configuration
      * @return void
      */
-    public function setConfig($config) {
+    public function setConfig($config)
+    {
         $this->config = $config;
     }
 
@@ -73,7 +75,8 @@ abstract class FabricateAbstractFactory {
      * @param mixed $model Model instance
      * @return array Array of records.
      */
-    protected function _generateRecords($params, $recordCount, $definitions, $model) {
+    protected function _generateRecords($params, $recordCount, $definitions, $model)
+    {
         $world = new FabricateContext($this->config, $model);
         if (!is_array($definitions)) {
             $definitions = [$definitions];
@@ -94,7 +97,8 @@ abstract class FabricateAbstractFactory {
      * @param FabricateContext $world context
      * @return array record applied nested definitions
      */
-    private function applyNestedDefinitions($definitions, $record, $world) {
+    private function applyNestedDefinitions($definitions, $record, $world)
+    {
         foreach ($definitions as $definition) {
             $result = $definition->run($record, $world);
             $record = $this->applyTraits($record, $world);
@@ -110,7 +114,8 @@ abstract class FabricateAbstractFactory {
      * @param FabricateContext $world context
      * @return array record applied traits
      */
-    private function applyTraits($record, $world) {
+    private function applyTraits($record, $world)
+    {
         foreach ($world->flashTraits() as $use) {
             $traits = Fabricate::traits();
             if (array_key_exists($use, $traits)) {
@@ -119,5 +124,4 @@ abstract class FabricateAbstractFactory {
         }
         return $record;
     }
-
 }

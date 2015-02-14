@@ -7,9 +7,10 @@
 namespace Fabricate;
 
 /**
- * Fabricator Registry Class 
+ * Fabricator Registry Class
  */
-class FabricateRegistry {
+class FabricateRegistry
+{
 
     /**
      * the register name
@@ -39,7 +40,8 @@ class FabricateRegistry {
      * @param Fabricate\Adaptor\AbstractFabricateAdaptor $adaptor
      * @return void
      */
-    public function __construct($name, $adaptor) {
+    public function __construct($name, $adaptor)
+    {
         $this->name  = $name;
         $this->adaptor = $adaptor;
         $this->items = [];
@@ -50,7 +52,8 @@ class FabricateRegistry {
      *
      * @return void
      */
-    public function clear() {
+    public function clear()
+    {
         $this->items = [];
     }
 
@@ -61,7 +64,8 @@ class FabricateRegistry {
      * @return mixed registerd object
      * @throws InvalidArgumentException
      */
-    public function find($name) {
+    public function find($name)
+    {
         if ($this->is_registered($name)) {
             return $this->items[$name];
         }
@@ -79,7 +83,8 @@ class FabricateRegistry {
      * @param FabricateDefinition $item item
      * @return void
      */
-    public function register($name, $item) {
+    public function register($name, $item)
+    {
         $this->items[$name] = $item;
     }
 
@@ -89,7 +94,8 @@ class FabricateRegistry {
      * @param string $name name
      * @return bool
      */
-    public function is_registered($name) {
+    public function is_registered($name)
+    {
         return array_key_exists($name, $this->items);
     }
 
@@ -98,7 +104,8 @@ class FabricateRegistry {
      *
      * @param Fabricate\Adaptor\AbstractFabricateAdaptor $adaptor
      */
-    public function setAdaptor($adaptor) {
+    public function setAdaptor($adaptor)
+    {
         $this->adaptor = $adaptor;
     }
 }

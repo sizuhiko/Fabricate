@@ -11,18 +11,20 @@ use Fabricate\Definition\FabricateDefinition;
 use Fabricate\Model\FabricateModel;
 
 /**
- * Fabricator Factory Proxy Class 
+ * Fabricator Factory Proxy Class
  */
-class FabricateFactory {
+class FabricateFactory
+{
 
-	/**
-	 * Create factory depends with definition
-	 *
-	 * @param mixed $definition FabricateDifinition or FabricateModel instance.
-	 * @return FabricateAbstractFactory 
-	 * @throws InvalidArgumentException
-	 */
-    public static function create($definition) {
+    /**
+     * Create factory depends with definition
+     *
+     * @param mixed $definition FabricateDifinition or FabricateModel instance.
+     * @return FabricateAbstractFactory
+     * @throws InvalidArgumentException
+     */
+    public static function create($definition)
+    {
         if ($definition instanceof FabricateDefinition) {
             return new FabricateDefinitionFactory($definition);
         }

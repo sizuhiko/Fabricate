@@ -10,7 +10,8 @@ namespace Fabricate\Adaptor;
 /**
  * Fabricate Adaptor Abstract Class for adapting any framework model
  */
-abstract class AbstractFabricateAdaptor {
+abstract class AbstractFabricateAdaptor
+{
 
     /**
      * Get model definition

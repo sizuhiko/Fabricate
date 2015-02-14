@@ -1,11 +1,8 @@
-<ruleset name="Custom Standard">
-	<rule ref="CakePHP">
-		<exclude name="CakePHP.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
-		<exclude name="CakePHP.NamingConventions.ValidFunctionName.PrivateNoUnderscore" />
-		<exclude name="CakePHP.NamingConventions.ValidVariableName.ProtectedNoUnderscore" />
-		<exclude name="CakePHP.NamingConventions.ValidFunctionName.ProtectedNoUnderscore" />
-		<exclude name="CakePHP.NamingConventions.ValidFunctionName.ScopeNotCamelCaps" />
-		<exclude name="CakePHP.NamingConventions.ValidVariableName.MemberVarNotCamelCaps" />
-		<exclude name="CakePHP.WhiteSpace.TabAndSpace" />
-	</rule>
-</ruleset>
+<?xml version="1.0"?> 
+<ruleset name="My Standards"> 
+    <description>My Coding Standards enforcement rule set for PHP_CodeSniffer</description> 
+    <rule ref="PSR2">
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />    	
+    </rule>
+</ruleset> 

@@ -10,7 +10,8 @@ namespace Fabricate\Model;
 /**
  * Fabricate Model
  */
-class FabricateModel {
+class FabricateModel
+{
     /** Model Name */
     private $modelName;
     /** Columns */
@@ -27,7 +28,8 @@ class FabricateModel {
      *
      * @param string $modelName Model Name
      */
-    public function __construct($modelName) {
+    public function __construct($modelName)
+    {
         $this->modelName = $modelName;
     }
 
@@ -56,7 +58,8 @@ class FabricateModel {
      * @param array $options Column Options
      * @return FabricateModel $this
      */
-    public function addColumn($columnName, $type, $options = []) {
+    public function addColumn($columnName, $type, $options = [])
+    {
         $this->columns[$columnName] = ['type' => $type, 'options' => $options];
         return $this;
     }
@@ -66,7 +69,8 @@ class FabricateModel {
      *
      * @return array
      */
-    public function getColumns() {
+    public function getColumns()
+    {
         return $this->columns;
     }
 
@@ -75,7 +79,8 @@ class FabricateModel {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->modelName;
     }
 
@@ -87,7 +92,8 @@ class FabricateModel {
      * @param string $modelName If association name is not model name then should set Model Name.
      * @return FabricateModel $this
      */
-    public function hasMany($name, $foreignKey, $modelName=null) {
+    public function hasMany($name, $foreignKey, $modelName = null)
+    {
         $this->addAssociation('hasMany', $name, $foreignKey, $modelName);
         return $this;
     }
@@ -100,7 +106,8 @@ class FabricateModel {
      * @param string $modelName If association name is not model name then should set Model Name.
      * @return FabricateModel $this
      */
-    public function hasOne($name, $foreignKey, $modelName=null) {
+    public function hasOne($name, $foreignKey, $modelName = null)
+    {
         $this->addAssociation('hasOne', $name, $foreignKey, $modelName);
         return $this;
     }
@@ -113,7 +120,8 @@ class FabricateModel {
      * @param string $modelName If association name is not model name then should set Model Name.
      * @return FabricateModel $this
      */
-    public function belongsTo($name, $foreignKey, $modelName=null) {
+    public function belongsTo($name, $foreignKey, $modelName = null)
+    {
         $this->addAssociation('belongsTo', $name, $foreignKey, $modelName);
         return $this;
     }
@@ -123,7 +131,8 @@ class FabricateModel {
      *
      * @return array
      */
-    public function getAssociated() {
+    public function getAssociated()
+    {
         $associated = [];
         foreach (['hasMany', 'hasOne', 'belongsTo'] as $association) {
             foreach ($this->{$association} as $name => $options) {
@@ -133,9 +142,10 @@ class FabricateModel {
         return $associated;
     }
 
-    private function addAssociation($association, $name, $foreignKey, $modelName=null) {
+    private function addAssociation($association, $name, $foreignKey, $modelName = null)
+    {
         $this->{$association}[$name] = ['foreignKey' => $foreignKey];
-        if($modelName) {
+        if ($modelName) {
             $this->{$association}[$name]['className'] = $modelName;
         }
     }

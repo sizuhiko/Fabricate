@@ -9,7 +9,8 @@ namespace Fabricate;
 /**
  * Fabricator Context
  */
-class FabricateContext {
+class FabricateContext
+{
 
     /**
      * Sequence Hash map
@@ -28,7 +29,7 @@ class FabricateContext {
     /**
      * Fabricate config
      *
-     * @var array 
+     * @var array
      */
     private $config;
 
@@ -44,7 +45,8 @@ class FabricateContext {
      * @param array $conf configuration
      * @param Fabricate\Model\FabricateModel $model model instance
      */
-    public function __construct($conf, $model = null) {
+    public function __construct($conf, $model = null)
+    {
         $this->config = $conf;
         $this->model = $model;
     }
@@ -53,13 +55,14 @@ class FabricateContext {
      * sequence allows you to get a series of numbers unique within the fabricate context.
      *
      * @param string $name sequence name
-     * @param int $start If you want to specify the starting number, you can do it with a second parameter. 
+     * @param int $start If you want to specify the starting number, you can do it with a second parameter.
      *         default value is 1.
-     * @param callback $callback If you are generating something like an email address, 
+     * @param callback $callback If you are generating something like an email address,
      *         you can pass it a block and the block response will be returned.
      * @return mixed generated sequence
      */
-    public function sequence($name, $start = null, $callback = null) {
+    public function sequence($name, $start = null, $callback = null)
+    {
         if (is_callable($start)) {
             $callback = $start;
             $start = null;
@@ -84,7 +87,8 @@ class FabricateContext {
      * @param string|array $name use trait name(s)
      * @return void
      */
-    public function traits($name) {
+    public function traits($name)
+    {
         if (is_array($name)) {
             $this->traits = array_merge($this->traits, $name);
         } else {
@@ -97,7 +101,8 @@ class FabricateContext {
      *
      * @return array flushed trait stack
      */
-    public function flashTraits() {
+    public function flashTraits()
+    {
         $traits = $this->traits;
         $this->traits = [];
         return $traits;
@@ -111,7 +116,8 @@ class FabricateContext {
      * @param mixed $callback callback or array can change fablicated data if you want to overwrite
      * @return array model attributes array.
      */
-    public function association($association, $recordCount = 1, $callback = null) {
+    public function association($association, $recordCount = 1, $callback = null)
+    {
         if (!is_array($association)) {
             $association = [$association, 'association' => $association];
         }
@@ -126,5 +132,4 @@ class FabricateContext {
         }
         return $attributes;
     }
-
 }

@@ -7,9 +7,10 @@
 namespace Fabricate;
 
 /**
- * Fabricator Sequence Class 
+ * Fabricator Sequence Class
  */
-class FabricateSequence {
+class FabricateSequence
+{
 
     /**
      * @var int
@@ -21,7 +22,8 @@ class FabricateSequence {
      *
      * @param int $start number of starting
      */
-    public function __construct($start) {
+    public function __construct($start)
+    {
         $this->sequence = $start;
     }
 
@@ -30,7 +32,8 @@ class FabricateSequence {
      *
      * @return int
      */
-    public function current() {
+    public function current()
+    {
         return $this->sequence;
     }
 
@@ -39,7 +42,8 @@ class FabricateSequence {
      *
      * @return int incremented number
      */
-    public function next() {
+    public function next()
+    {
         return ++$this->sequence;
     }
 }

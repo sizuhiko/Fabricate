@@ -9,7 +9,8 @@ namespace Fabricate;
 /**
  * Fabricator Configuration
  */
-class FabricateConfig {
+class FabricateConfig
+{
 
     /**
      * start number for $world->sequence()

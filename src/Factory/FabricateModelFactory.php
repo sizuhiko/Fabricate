@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Fabricate
  * *
@@ -10,7 +10,8 @@ namespace Fabricate\Factory;
 /**
  * FabricateModelFactory class
  */
-class FabricateModelFactory extends FabricateAbstractFactory {
+class FabricateModelFactory extends FabricateAbstractFactory
+{
 
     /**
      * @var Fabricate\Model\FabricateModel FabricateModel instance
@@ -22,35 +23,40 @@ class FabricateModelFactory extends FabricateAbstractFactory {
      *
      * @param Fabricate\Model\FabricateModel $model FabricateModel instance
      */
-    public function __construct($model) {
+    public function __construct($model)
+    {
         $this->model = $model;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function create($attributes, $recordCount, $definition) {
+    public function create($attributes, $recordCount, $definition)
+    {
         return $this->config->adaptor->create($this->model->getName(), $attributes, $recordCount);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function build($data, $definition) {
+    public function build($data, $definition)
+    {
         return $this->config->adaptor->build($this->model->getName(), $data[0], $this->model);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function attributes_for($recordCount, $definition) {
+    public function attributes_for($recordCount, $definition)
+    {
         return $this->_generateRecords($this->model->getColumns(), $recordCount, $definition, $this->model);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function fakeRecord($tableInfo, $index) {
+    protected function fakeRecord($tableInfo, $index)
+    {
         foreach ($tableInfo as $field => $fieldInfo) {
             if (empty($fieldInfo['type'])) {
                 continue;
@@ -66,7 +72,7 @@ class FabricateModelFactory extends FabricateAbstractFactory {
                 case 'string':
                 case 'binary':
                     $insert = $this->config->faker->realText();
-                    if(!empty($fieldInfo['options']['limit'])) {
+                    if (!empty($fieldInfo['options']['limit'])) {
                         $insert = substr($insert, 0, (int)$fieldInfo['options']['limit']);
                     }
                     break;
