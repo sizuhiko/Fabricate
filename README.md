@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=master)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
+[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=v2)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
 
 Fabricate
 =========
@@ -24,8 +24,11 @@ At first, Fabricate require to config for using.
 For example, to override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml 
 
 ```php
+use Fabricate\Fabricate;
+use CakeFabricate\Adaptor\CakeFabricateAdaptor;
+
 Fabricate::config(function($config) {
-    $config->adaptor = new Fabricate\Adaptor\CakePHPAdaptor();
+    $config->adaptor = new CakeFabricateAdaptor();
 });
 ```
 
@@ -35,7 +38,8 @@ The pull request will include suggestion into composer.json and link of reposito
 
 #### Comunity Adaptors
 
-- TODO:
+- [CakeFabricate for CakePHP3](https://github.com/sizuhiko/cakephp-fabricate-adaptor)
+- Please contribute
 
 ### The Basics
 

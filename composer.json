@@ -24,5 +24,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "sizuhiko/cake_fabricate": "for integration with CakePHP3"
     }
 }
