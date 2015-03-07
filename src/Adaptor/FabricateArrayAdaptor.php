@@ -31,7 +31,7 @@ class FabricateArrayAdaptor extends AbstractFabricateAdaptor
      */
     public function create($modelName, $attributes, $recordCount)
     {
-        $results = array_map(function($attribute) use ($modelName) {
+        $results = array_map(function ($attribute) use ($modelName) {
             return [$modelName => $attribute];
         }, $attributes);
         return $recordCount == 1 ? $results[0] : $results;
