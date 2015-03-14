@@ -330,6 +330,38 @@ Fabricate::create('Post', function($data, $world) {
 });
 ```
 
+## Faker
+
+Faker is a PHP library that generates fake data for you.
+Fabrication provides you with generation custom value for own rule.
+
+### Config
+
+Faker supports a localization.
+The default locale is en_EN.
+Allows you to specify the locale. 
+This can still be overridden for specific Faker Factory.
+
+```php
+Fabricate::config(function($config) {
+    $config->faker = Faker\Factory::create('ja_JP');
+});
+```
+
+### Usage
+
+```php
+Fabricate::config(function($config) {
+    $config->faker = Faker\Factory::create('ja_JP'); // this is optional
+});
+
+$results = Fabricate::attributes_for('User', function($data, $world){
+    return [
+        'user'=> $world->faker()->name
+    ];
+});
+```
+
 ## Reloading
 
 If you need to reset fabricate back to its original state after it has been loaded.
