@@ -49,4 +49,8 @@ class FabricateContextTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(2, $this->Context->sequence('number')); // second time should be incremented
     }
 
+    public function testGetFakerInstance() {
+        $this->Config->faker = \Faker\Factory::create();
+        $this->assertSame($this->Config->faker, $this->Context->faker());
+    }
 }

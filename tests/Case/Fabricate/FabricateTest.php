@@ -257,4 +257,13 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(['Title1','Title2','Title3'], array_map(function($post) { return $post['title']; }, $results['User']['Post']));
     }
 
+    public function testContextHasFakerFactory() {
+        $results = Fabricate::attributes_for('User', function($data, $world) {
+            return [
+                'user' => $world->faker()->name,
+            ];
+        });
+        $this->assertNotEmpty($results[0]['user']);
+    }
+
 }

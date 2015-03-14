@@ -132,4 +132,14 @@ class FabricateContext
         }
         return $attributes;
     }
+
+    /**
+     * Get Faker instance.
+     *
+     * @return Faker\Factory
+     */
+    public function faker()
+    {
+        return $this->config->faker;
+    }
 }
