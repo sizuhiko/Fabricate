@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=v2)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
+[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=develop)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
 
 Fabricate
 =========
@@ -10,7 +10,9 @@ It's inspired on [Fabrication](https://github.com/paulelliott/fabrication) and [
 Fabricate is a simple fake object generation core library for PHP.
 Quickly Fabricate objects as needed anywhere in your app or test case.
 
-## Install 
+If you use CakePHP2, please see [cakephp2 branch](https://github.com/sizuhiko/Fabricate/tree/cakephp2).
+
+## Install
 
 Add require-dev in your composer.json
 
@@ -21,7 +23,7 @@ Add require-dev in your composer.json
 ### Adaptor
 
 At first, Fabricate require to config for using.
-For example, to override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml 
+For example, to override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml
 
 ```php
 use Fabricate\Fabricate;
@@ -73,7 +75,7 @@ The hash will overwrite any fields defined in the callback function.
 
 ### Configuration
 
-To override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml 
+To override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml
 
 ```
 Fabricate::config(function($config) {
@@ -87,7 +89,7 @@ Fabricate::config(function($config) {
 
 ##### sequence_start
 
-Allows you to specify the default starting number for all sequences. 
+Allows you to specify the default starting number for all sequences.
 This can still be overridden for specific sequences.
 
 `Default: 1`
@@ -121,7 +123,7 @@ $results = Fabricate::attributes_for('Post', 10, function($data){
 
 // $results is followings :
 array (
-  0 => 
+  0 =>
   array (
     'id' => 1,
     'title' => 'Lorem ipsum dolor sit amet',
@@ -129,7 +131,7 @@ array (
     'created' => '2013-10-09 12:40:28',
     'updated' => '2013-10-09 12:40:28',
   ),
-  1 => 
+  1 =>
   array (
   ....
 ```
@@ -168,10 +170,10 @@ Fabricate::create('Post', 10, function($data){
 });
 ```
 
-## Defining 
+## Defining
 
 Fabricate has a name and a set of attributes when fabricating objects.
-The name is used to guess the class of the object by default, 
+The name is used to guess the class of the object by default,
 
 ```php
 Fabricate::define('Post', ['published'=>'1']);
@@ -201,7 +203,7 @@ Fabricate::create('Author5PublishedPost');
 
 It's possible to set up associations(hasOne/hasMany/belongsTo) within Fabricate::create().
 You can also specify a FabricateContext::association().
-It will generate the attributes, and set(merge) it in the current array. 
+It will generate the attributes, and set(merge) it in the current array.
 
 ### Usage
 
@@ -244,7 +246,7 @@ A sequence allows you to get a series of numbers unique within the each generati
 
 ### Config
 
-Allows you to specify the default starting number for all sequences. 
+Allows you to specify the default starting number for all sequences.
 This can still be overridden for specific sequences.
 
 ```php
@@ -268,16 +270,16 @@ $results = Fabricate::attributes_for('Post', 10, function($data, $world){
 
 // $results is followings :
 array (
-  0 => 
+  0 =>
   array (
     'id' => 100,           // starting configure sequence
-    'title' => 'Title 1',  // closure function returned 
+    'title' => 'Title 1',  // closure function returned
     ...
   ),
-  1 => 
+  1 =>
   array (
     'id' => 101,           // starting configure sequence
-    'title' => 'Title 2',  // closure function returned 
+    'title' => 'Title 2',  // closure function returned
     ...
 ```
 
@@ -339,7 +341,7 @@ Fabrication provides you with generation custom value for own rule.
 
 Faker supports a localization.
 The default locale is en_EN.
-Allows you to specify the locale. 
+Allows you to specify the locale.
 This can still be overridden for specific Faker Factory.
 
 ```php
