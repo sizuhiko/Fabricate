@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=master)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
+[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=cakephp2)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
 
 Fabricate
 =========
@@ -17,6 +17,10 @@ Add require-dev in your composer.json
 
 `composer require --dev sizuhiko/fabricate`
 
+In composer.json followings:
+```json
+"sizuhiko/fabricate": "~1.2.1"
+```
 
 Add bootstrap
 
