@@ -1,38 +1,49 @@
-[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=master)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
+[![Build Status](https://travis-ci.org/sizuhiko/Fabricate.svg?branch=develop)](https://travis-ci.org/sizuhiko/Fabricate) [![Coverage Status](https://coveralls.io/repos/sizuhiko/Fabricate/badge.png)](https://coveralls.io/r/sizuhiko/Fabricate) [![Total Downloads](https://poser.pugx.org/sizuhiko/fabricate/downloads.svg)](https://packagist.org/packages/sizuhiko/fabricate) [![Latest Stable Version](https://poser.pugx.org/sizuhiko/fabricate/v/stable.svg)](https://packagist.org/packages/sizuhiko/fabricate)
 
 Fabricate
 =========
 
-CakePHP data generator for Testing
+PHP data generator for Testing
 
 It's inspired on [Fabrication](https://github.com/paulelliott/fabrication) and [factory-girl](https://github.com/thoughtbot/factory_girl) from the Ruby world.
 
-Fabricate is a simple fake object generation plugin for CakePHP.
+Fabricate is a simple fake object generation core library for PHP.
 Quickly Fabricate objects as needed anywhere in your app or test case.
-Generation method(Lib/Fabricate#_generateRecords()) cited FixtureTask of CakePHP.
 
-## Install 
+If you use CakePHP2, please see [cakephp2 branch](https://github.com/sizuhiko/Fabricate/tree/cakephp2).
+
+## Install
 
 Add require-dev in your composer.json
 
 `composer require --dev sizuhiko/fabricate`
 
-
-Add bootstrap
-
-```php
-CakePlugin::load('Fabricate');
-```
-
 ## Usage
 
-### The Basics
+### Adaptor
 
-Include Fabricate class using App::uses on your test file
+At first, Fabricate require to config for using.
+For example, to override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml
 
 ```php
-App::uses('Fabricate', 'Fabricate.Lib');
+use Fabricate\Fabricate;
+use CakeFabricate\Adaptor\CakeFabricateAdaptor;
+
+Fabricate::config(function($config) {
+    $config->adaptor = new CakeFabricateAdaptor();
+});
 ```
+
+Fabricate doesn't provide adaptors.
+If you will make adaptor of any frameworks, send us your pull request.
+The pull request will include suggestion into composer.json and link of repository on README(Comunity Adaptors).
+
+#### Comunity Adaptors
+
+- [CakeFabricate for CakePHP3](https://github.com/sizuhiko/cakephp-fabricate-adaptor)
+- Please contribute
+
+### The Basics
 
 The simplest way to generate objects
 
@@ -64,14 +75,13 @@ The hash will overwrite any fields defined in the callback function.
 
 ### Configuration
 
-To override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml 
+To override these settings, put a bootstrap.php in your app folder and append the path to phpunit.xml
 
 ```
 Fabricate::config(function($config) {
     $config->sequence_start = 1;
-    $config->auto_validate = false;
-    $config->filter_key = false;
-    $config->testing = true;
+    $config->adaptor = new Fabricate\Adaptor\CakePHPAdaptor();
+    $config->faker = \Faker\Factory::create('ja_JP');
 });
 ```
 
@@ -79,38 +89,28 @@ Fabricate::config(function($config) {
 
 ##### sequence_start
 
-Allows you to specify the default starting number for all sequences. 
+Allows you to specify the default starting number for all sequences.
 This can still be overridden for specific sequences.
 
 `Default: 1`
 
-##### auto_validate
+##### adaptor
 
-Indicates whether or not to validate before creating.
-see: CakePHP's Model::save()
+Adapters ease the population of databases through the Database accessor provided by an ORM library(or framework).
 
-`Default: false`
+`Default: null`
 
-##### filter_key
+##### faker
 
-filter_key If true, overwrites any primary key input with an empty value.
-see: CakePHP's Model::create()
+Allow you to specify the default Faker instance to return localized data.
 
-`Default: false`
-
-##### testing
-
-testing If false, uses create seed data to default database with using Fabricate.
-All model instance created by CalssRegistry::init('modelName', ['testing'=>false]).
-see: CakePHP's ClassRegistry::init()
-
-`Default: true`
+`Default: default locale(en_EN) instance`
 
 ### Generate model attributes as array (not saved)
 
 `Fabricate::attributes_for(:model_name, :number_of_generation, :array_or_callback)` generate only attributes.
 
-* model_name: CakePHP Model class name.
+* model_name: Model class name.
 * number_of_generation: Generated number of records
 * array_or_callback: it can override each generated attributes
 
@@ -123,7 +123,7 @@ $results = Fabricate::attributes_for('Post', 10, function($data){
 
 // $results is followings :
 array (
-  0 => 
+  0 =>
   array (
     'id' => 1,
     'title' => 'Lorem ipsum dolor sit amet',
@@ -131,7 +131,7 @@ array (
     'created' => '2013-10-09 12:40:28',
     'updated' => '2013-10-09 12:40:28',
   ),
-  1 => 
+  1 =>
   array (
   ....
 ```
@@ -140,7 +140,7 @@ array (
 
 `Fabricate::build(:model_name, :array_or_callback)` generate a model instance (using ClassRegistry::init).
 
-* model_name: CakePHP Model class name.
+* model_name: Model class name.
 * array_or_callback: it can override each generated attributes
 
 #### Example
@@ -150,14 +150,7 @@ $result = Fabricate::build('Post', function($data){
     return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
 });
 
-// $results is followings :
-AppModel::__set_state(array(
-   'useDbConfig' => 'default',
-   'useTable' => 'posts',
-   'id' => 1,
-   'data' => 
-  array (
-    'Post' => 
+// $results are depends adaptor result.
  ......
 ```
 
@@ -165,7 +158,7 @@ AppModel::__set_state(array(
 
 `Fabricate::create(:model_name, :number_of_generation, :array_or_callback)` generate and save records to database.
 
-* model_name: CakePHP Model class name.
+* model_name: Model class name.
 * number_of_generation: Generated number of records
 * array_or_callback: it can override each generated attributes
 
@@ -177,10 +170,10 @@ Fabricate::create('Post', 10, function($data){
 });
 ```
 
-## Defining 
+## Defining
 
 Fabricate has a name and a set of attributes when fabricating objects.
-The name is used to guess the class of the object by default, 
+The name is used to guess the class of the object by default,
 
 ```php
 Fabricate::define('Post', ['published'=>'1']);
@@ -210,7 +203,7 @@ Fabricate::create('Author5PublishedPost');
 
 It's possible to set up associations(hasOne/hasMany/belongsTo) within Fabricate::create().
 You can also specify a FabricateContext::association().
-It will generate the attributes, and set(merge) it in the current array. 
+It will generate the attributes, and set(merge) it in the current array.
 
 ### Usage
 
@@ -253,7 +246,7 @@ A sequence allows you to get a series of numbers unique within the each generati
 
 ### Config
 
-Allows you to specify the default starting number for all sequences. 
+Allows you to specify the default starting number for all sequences.
 This can still be overridden for specific sequences.
 
 ```php
@@ -277,16 +270,16 @@ $results = Fabricate::attributes_for('Post', 10, function($data, $world){
 
 // $results is followings :
 array (
-  0 => 
+  0 =>
   array (
     'id' => 100,           // starting configure sequence
-    'title' => 'Title 1',  // closure function returned 
+    'title' => 'Title 1',  // closure function returned
     ...
   ),
-  1 => 
+  1 =>
   array (
     'id' => 101,           // starting configure sequence
-    'title' => 'Title 2',  // closure function returned 
+    'title' => 'Title 2',  // closure function returned
     ...
 ```
 
@@ -339,6 +332,38 @@ Fabricate::create('Post', function($data, $world) {
 });
 ```
 
+## Faker
+
+Faker is a PHP library that generates fake data for you.
+Fabrication provides you with generation custom value for own rule.
+
+### Config
+
+Faker supports a localization.
+The default locale is en_EN.
+Allows you to specify the locale.
+This can still be overridden for specific Faker Factory.
+
+```php
+Fabricate::config(function($config) {
+    $config->faker = Faker\Factory::create('ja_JP');
+});
+```
+
+### Usage
+
+```php
+Fabricate::config(function($config) {
+    $config->faker = Faker\Factory::create('ja_JP'); // this is optional
+});
+
+$results = Fabricate::attributes_for('User', function($data, $world){
+    return [
+        'user'=> $world->faker()->name
+    ];
+});
+```
+
 ## Reloading
 
 If you need to reset fabricate back to its original state after it has been loaded.
@@ -347,8 +372,8 @@ If you need to reset fabricate back to its original state after it has been load
 Fabricate::clear();
 ```
 
-## Contributing to this Plugin
+## Contributing to this Library
 
-Please feel free to contribute to the plugin with new issues, requests, unit tests and code fixes or new features.
+Please feel free to contribute to the library with new issues, requests, unit tests and code fixes or new features.
 If you want to contribute some code, create a feature branch from develop, and send us your pull request.
 

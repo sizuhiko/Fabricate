@@ -1,6 +1,7 @@
 {
     "name": "sizuhiko/fabricate",
-    "type": "cakephp-plugin",
+    "type": "library",
+    "license": "MIT",
     "description": "CakePHP data generator for Testing",
     "authors": [
         {
@@ -8,8 +9,23 @@
             "email": "sizuhiko@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Fabricate\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\Fabricate\\": "tests\\Case\\Fabricate"
+        }
+    },
     "require": {
-        "composer/installers": "*"
+        "fzaninotto/faker": "~1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "sizuhiko/cake_fabricate": "for integration with CakePHP3"
     }
 }
