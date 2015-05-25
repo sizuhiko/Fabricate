@@ -29,7 +29,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory {
 /**
  * {@inheritDoc}
  */
-	public function build($data, $definition) {
+	public function build($attributes, $definition) {
 		if ($this->definition->parent) {
 			return $this->definition->parent->build($attributes, $definition);
 		}
