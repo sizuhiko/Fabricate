@@ -74,7 +74,9 @@ class FabricateModelFactory extends FabricateAbstractFactory {
 					} else {
 						$insert = "Lorem ipsum dolor sit amet";
 						if (!empty($fieldInfo['length'])) {
-							$insert = substr($insert, 0, (int)$fieldInfo['length'] - 2);
+							$length = (int)$fieldInfo['length'];
+							$length = $length === 1? $length : ($length - 2);
+							$insert = substr($insert, 0, $length);
 						}
 					}
 					break;

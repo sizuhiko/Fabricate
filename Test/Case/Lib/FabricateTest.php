@@ -45,7 +45,7 @@ class FabricateTest extends CakeTestCase {
 			"author_id"=>5, 
 			"title"=>"Lorem ipsum dolor sit amet",
 			"body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-			"published"=>"Lorem ipsum dolor sit ame",
+			"published"=>"L",
 			"created"=>"2013-10-09 12:40:28",
 			"updated"=>"2013-10-09 12:40:28"
 		];
@@ -62,7 +62,7 @@ class FabricateTest extends CakeTestCase {
 			"author_id"=>1, 
 			"title"=>"Lorem ipsum dolor sit amet",
 			"body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-			"published"=>"Lorem ipsum dolor sit ame",
+			"published"=>"L",
 			"created"=>"2013-10-09 12:40:28",
 			"updated"=>"2013-10-09 12:40:28"
 		];
@@ -97,7 +97,7 @@ class FabricateTest extends CakeTestCase {
 			"author_id"=>5, 
 			"title"=>"Lorem ipsum dolor sit amet",
 			"body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-			"published"=>"Lorem ipsum dolor sit ame",
+			"published"=>"L",
 			"created"=>"2013-10-09 12:40:28",
 			"updated"=>"2013-10-09 12:40:28"
 		];
@@ -112,7 +112,7 @@ class FabricateTest extends CakeTestCase {
 			"author_id"=>1, 
 			"title"=>"Lorem ipsum dolor sit amet",
 			"body"=>"Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.",
-			"published"=>"Lorem ipsum dolor sit ame",
+			"published"=>"L",
 			"created"=>"2013-10-09 12:40:28",
 			"updated"=>"2013-10-09 12:40:28"
 		];
