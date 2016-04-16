@@ -2,7 +2,7 @@
     "name": "sizuhiko/fabricate",
     "type": "library",
     "license": "MIT",
-    "description": "CakePHP data generator for Testing",
+    "description": "PHP data generator for Testing",
     "authors": [
         {
             "name": "sizuhiko",
