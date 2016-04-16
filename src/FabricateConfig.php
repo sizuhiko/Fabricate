@@ -34,4 +34,12 @@ class FabricateConfig
      * @var Faker\Factory
      */
     public $faker = null;
+
+    /**
+     * Limit size for generation of text field
+     *
+     * @var int
+     * @since 1.2.3
+     */
+    public $text_size_limit = 200;
 }
