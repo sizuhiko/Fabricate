@@ -92,8 +92,8 @@ class FabricateModelFactory extends FabricateAbstractFactory
                     $insert = true;
                     break;
                 case 'text':
-                    $maxNbChars = !empty($fieldInfo['options']['limit']) ? $fieldInfo['options']['limit'] : 200;
-                    $maxNbChars = $maxNbChars > 200 ? 200 : $maxNbChars;
+                    $maxNbChars = !empty($fieldInfo['options']['limit']) ? $fieldInfo['options']['limit'] : $this->config->text_size_limit;
+                    $maxNbChars = $maxNbChars > $this->config->text_size_limit ? $this->config->text_size_limit : $maxNbChars;
                     $insert = $this->config->faker->text($maxNbChars);
                     break;
             }

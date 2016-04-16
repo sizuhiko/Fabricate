@@ -106,6 +106,14 @@ Allow you to specify the default Faker instance to return localized data.
 
 `Default: default locale(en_EN) instance`
 
+#### text_size_limit
+
+Allow you to specify the limit size for generation of text field.
+
+`Default: 200`
+
+_from v1.2.3_
+
 ### Generate model attributes as array (not saved)
 
 `Fabricate::attributes_for(:model_name, :number_of_generation, :array_or_callback)` generate only attributes.
