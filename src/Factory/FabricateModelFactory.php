@@ -57,6 +57,7 @@ class FabricateModelFactory extends FabricateAbstractFactory
      */
     protected function fakeRecord($tableInfo, $index)
     {
+        $record = [];
         foreach ($tableInfo as $field => $fieldInfo) {
             if (empty($fieldInfo['type'])) {
                 continue;
