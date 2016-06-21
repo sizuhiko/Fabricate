@@ -22,7 +22,8 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
                 ->addColumn('published', 'string', ['limit' => 1])
                 ->addColumn('created', 'datetime')
                 ->addColumn('updated', 'datetime')
-                ->belongsTo('Author', 'author_id', 'User'),
+                ->belongsTo('Author', 'author_id', 'User')
+                ->hasMany('PostTag', 'post_id'),
             'User' => (new FabricateModel('User'))
                 ->addColumn('id', 'integer')
                 ->addColumn('user', 'string', ['null' => true, 'limit' => 255])
@@ -30,6 +31,13 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
                 ->addColumn('created', 'datetime')
                 ->addColumn('updated', 'datetime')
                 ->hasMany('Post', 'author_id'),
+            'Tag' => (new FabricateModel('Tag'))
+                ->addColumn('id', 'integer')
+                ->addColumn('title', 'string', ['null' => false, 'limit' => 50])
+                ->hasMany('PostTag', 'tag_id'),
+            'PostTag' => (new FabricateModel('PostTag'))
+                ->belongsTo('Post', 'post_id', 'Post')
+                ->belongsTo('Tag', 'tag_id', 'Tag'),
         ];
         Fabricate::config(function($config) use($adaptor) {
             $config->adaptor = $adaptor;
@@ -41,7 +49,7 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
             return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
         });
         $this->assertCount(10, $results);
-        for ($i = 0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             $this->assertEquals($i+1, $results[$i]['id']);
             $this->assertEquals($i+1, $results[$i]['author_id']);
             $this->assertEquals(50, strlen($results[$i]['title']));
@@ -70,7 +78,7 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
             return ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"];
         });
         $this->assertCount(10, $results);
-        for ($i = 0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             $this->assertEquals($i+1, $results[$i]['Post']['id']);
             $this->assertEquals($i+1, $results[$i]['Post']['author_id']);
             $this->assertEquals(50, strlen($results[$i]['Post']['title']));
@@ -84,7 +92,7 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
     public function testAttributesForWithArrayOption() {
         $results = Fabricate::attributes_for('Post', 10, ["created" => "2013-10-09 12:40:28", "updated" => "2013-10-09 12:40:28"]);
         $this->assertCount(10, $results);
-        for ($i = 0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             $this->assertEquals($i+1, $results[$i]['id']);
             $this->assertEquals($i+1, $results[$i]['author_id']);
             $this->assertEquals(50, strlen($results[$i]['title']));
@@ -111,7 +119,7 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(10, $results);
 
         $this->assertCount(10, $results);
-        for ($i = 0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             $this->assertEquals($i+1, $results[$i]['Post']['id']);
             $this->assertEquals($i+1, $results[$i]['Post']['author_id']);
             $this->assertEquals(50, strlen($results[$i]['Post']['title']));
@@ -187,12 +195,22 @@ class FabricateTest extends \PHPUnit_Framework_TestCase {
         $results = Fabricate::create('User', function($data, $world) {
             return [
                 'user' => 'taro',
-                'Post' => $world->association('Post', 3, ['id'=>false,'author_id'=>false]),
+                'Post' => $world->association('Post', 3, [
+                    'id' => false,
+                    'author_id' => false,
+                    'PostTag' => $world->association('PostTag', 2, [
+                        'post_id' => false,
+                        'tag_id' => false,
+                        'Tag' => $world->association('Tag')
+                    ]),
+                ]),
             ];
         });
 
         $this->assertEquals('taro', $results['User']['user']);
         $this->assertCount(3, $results['User']['Post']);
+        $this->assertCount(2, $results['User']['Post'][0]['PostTag']);
+        $this->assertNotEmpty($results['User']['Post'][0]['PostTag'][0]['Tag']);
     }
 
     public function testCreateWithDefinedAssociation() {
