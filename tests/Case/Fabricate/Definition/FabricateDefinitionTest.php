@@ -1,12 +1,13 @@
-<?php 
+<?php
 namespace Test\Fabricate\Definition;
 
 use Fabricate\Definition\FabricateDefinition;
+use PHPUnit\Framework\TestCase;
 
 /**
  * FabricateDefinition class test case
  */
-class FabricateDefinitionTest extends \PHPUnit_Framework_TestCase {
+class FabricateDefinitionTest extends TestCase {
     public function testRunCallbackDefinition() {
         $target = new FabricateDefinition(function($data, $world) {
             $this->assertEquals(['name'=>'taro'], $data);

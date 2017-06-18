@@ -1,13 +1,14 @@
-<?php 
+<?php
 namespace Test\Fabricate;
 
 use Fabricate\FabricateConfig;
 use Fabricate\FabricateContext;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Fabricate class test case
  */
-class FabricateContextTest extends \PHPUnit_Framework_TestCase {
+class FabricateContextTest extends TestCase {
 
     public function setUp() {
         $this->Config = new FabricateConfig();
