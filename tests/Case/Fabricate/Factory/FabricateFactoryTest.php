@@ -4,11 +4,12 @@ namespace Test\Fabricate\Factory;
 use Fabricate\Factory\FabricateFactory;
 use Fabricate\Definition\FabricateDefinition;
 use Fabricate\Model\FabricateModel;
+use PHPUnit\Framework\TestCase;
 
 /**
  * FabricateFactory class test case
  */
-class FabricateFactoryTest extends \PHPUnit_Framework_TestCase {
+class FabricateFactoryTest extends TestCase {
     public function setUp() {
         $this->model = (new FabricateModel('Post'))
             ->addColumn('id', 'integer')

@@ -4,11 +4,12 @@ namespace Test\Fabricate;
 use Fabricate\Fabricate;
 use Fabricate\Adaptor\FabricateArrayAdaptor;
 use Fabricate\Model\FabricateModel;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Fabricate class test case
  */
-class FabricateTest extends \PHPUnit_Framework_TestCase {
+class FabricateTest extends TestCase {
     public function setUp() {
         parent::setUp();
         Fabricate::clear();

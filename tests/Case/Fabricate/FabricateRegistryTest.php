@@ -1,14 +1,15 @@
-<?php 
+<?php
 namespace Test\Fabricate;
 
 use Fabricate\FabricateRegistry;
 use Fabricate\Adaptor\FabricateArrayAdaptor;
 use Fabricate\Model\FabricateModel;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Fabricate class test case
  */
-class FabricateRegistryTest extends \PHPUnit_Framework_TestCase {
+class FabricateRegistryTest extends TestCase {
     public function setUp() {
         $adaptor = new FabricateArrayAdaptor();
         $adaptor::$definitions = [
