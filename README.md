@@ -105,7 +105,7 @@ see: CakePHP's Model::create()
 ##### testing
 
 testing If false, uses create seed data to default database with using Fabricate.
-All model instance created by CalssRegistry::init('modelName', ['testing'=>false]).
+All model instance created by ClassRegistry::init('modelName', ['testing'=>false]).
 see: CakePHP's ClassRegistry::init()
 
 `Default: true`
