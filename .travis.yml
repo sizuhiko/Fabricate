@@ -34,8 +34,11 @@ matrix:
         - FOC_VALIDATE=1
 
 before_script:
-  - git clone -b master https://github.com/sizuhiko/travis.git --depth 1 ../travis
+  - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
+  - composer global remove "phpunit/phpunit"
+  - composer require "phpunit/phpunit=3.7.38"
+  - echo "require_once __DIR__ . '/../Vendor/autoload.php';" >> ../cakephp/app/Config/bootstrap.php
 
 script:
   - ../travis/script.sh
