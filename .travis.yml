@@ -22,7 +22,9 @@ matrix:
   include:
     - php: 5.4
       env:
-        - COVERALLS=1
+        - DB=mysql
+        - CAKE_VERSION=2.7
+        - CODECOVERAGE=1
     - php: 5.4
       env:
         - PHPCS=1
@@ -33,7 +35,7 @@ matrix:
 
 before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
-  - ../travis/before_script.sh
+  - travis_wait ../travis/before_script.sh
 
 script:
   - ../travis/script.sh
