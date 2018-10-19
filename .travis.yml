@@ -38,7 +38,7 @@ before_script:
   - travis_wait ../travis/before_script.sh
   - composer global remove "phpunit/phpunit"
   - composer require "phpunit/phpunit=3.7.38"
-  - echo "require_once __DIR__ . '/../Vendor/autoload.php';" >> ../cakephp/app/Config/bootstrap.php
+  - echo "ini_set('include_path', __DIR__ . '/../Vendor/phpunit/phpunit' . PATH_SEPARATOR . ini_get('include_path'));" >> ../cakephp/app/Config/bootstrap.php
 
 script:
   - ../travis/script.sh
