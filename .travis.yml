@@ -1,8 +1,5 @@
 language: php
 
-# We require precise here, as 5.3 doesn't exist on trusty.
-dist: precise
-
 php:
   - 5.4
   - 5.5
@@ -39,9 +36,6 @@ matrix:
 before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
-  - composer global remove "phpunit/phpunit"
-  - composer require "phpunit/phpunit=3.7.33"
-  - echo "ini_set('include_path', __DIR__ . '/../Vendor/phpunit/phpunit' . PATH_SEPARATOR . ini_get('include_path'));" >> ../cakephp/app/Config/bootstrap.php
 
 script:
   - ../travis/script.sh
