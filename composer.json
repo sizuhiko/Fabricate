@@ -8,8 +8,7 @@
             "email": "sizuhiko@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "composer/installers": "*"
+        "composer/installers": "^1.0.0"
     }
 }
