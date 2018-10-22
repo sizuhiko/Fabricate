@@ -12,14 +12,14 @@ env:
   global:
     - PLUGIN_NAME=Fabricate
     - REQUIRE=""
-    - DB=mysql CAKE_VERSION=2.4
+    - DB=mysql CAKE_REF=2.4.10
 
   matrix:
-    - DB=mysql CAKE_VERSION=2.4
-    - DB=mysql CAKE_VERSION=2.5
-    - DB=mysql CAKE_VERSION=2.6
-    - DB=mysql CAKE_VERSION=2.7
-    - DB=mysql CAKE_VERSION=2.8
+    - DB=mysql CAKE_REF=2.4.10
+    - DB=mysql CAKE_REF=2.5.9
+    - DB=mysql CAKE_REF=2.6.13
+    - DB=mysql CAKE_REF=2.7.11
+    - DB=mysql CAKE_REF=2.8.9
 
 matrix:
   include:
