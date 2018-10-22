@@ -36,7 +36,6 @@ matrix:
         - FOC_VALIDATE=1
 
 before_script:
-  - rm composer.json
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
 
