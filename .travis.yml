@@ -18,11 +18,6 @@ env:
     - DB=mysql CAKE_REF=2.4.10
 
   matrix:
-    - DB=mysql CAKE_REF=2.4.10
-    - DB=mysql CAKE_REF=2.5.9
-    - DB=mysql CAKE_REF=2.6.13
-    - DB=mysql CAKE_REF=2.7.11
-    - DB=mysql CAKE_REF=2.8.9
     - DB=mysql CAKE_REF=2.10.16
 
 matrix:
@@ -43,6 +38,7 @@ matrix:
 before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} =~ ^7\.[23]$ ]] ; then composer require "phpunit/phpunit=5.7" ; fi
 
 script:
   - ../travis/script.sh
