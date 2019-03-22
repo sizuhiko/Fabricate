@@ -38,6 +38,7 @@ matrix:
 before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} =~ ^7\.[23]$ ]] ; then composer global remove phpunit/phpunit ; fi
   - if [[ ${TRAVIS_PHP_VERSION:0:3} =~ ^7\.[23]$ ]] ; then composer global require 'phpunit/phpunit=5.7.26' ; fi
 
 script:
