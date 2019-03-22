@@ -6,6 +6,10 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
 
 env:
   global:
@@ -19,6 +23,7 @@ env:
     - DB=mysql CAKE_REF=2.6.13
     - DB=mysql CAKE_REF=2.7.11
     - DB=mysql CAKE_REF=2.8.9
+    - DB=mysql CAKE_REF=2.10.16
 
 matrix:
   include:
