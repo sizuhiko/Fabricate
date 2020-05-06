@@ -1,5 +1,7 @@
 language: php
 
+dist: trusty
+
 php:
   - 5.4
   - 5.5
@@ -8,6 +10,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
 
 env:
   global:
@@ -15,13 +18,13 @@ env:
 
 matrix:
   include:
-    - php: 5.4
+    - php: 7.4
       env:
         - COVERALLS=1
-    - php: 5.4
+    - php: 7.4
       env:
         - PHPCS=1
-    - php: 5.4
+    - php: 7.4
       env:
         - FOC_VALIDATE=1
 
