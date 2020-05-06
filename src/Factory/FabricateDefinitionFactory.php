@@ -45,7 +45,7 @@ class FabricateDefinitionFactory extends FabricateAbstractFactory
     public function build($data, $definition)
     {
         if ($this->definition->parent) {
-            return $this->definition->parent->build($attributes, $definition);
+            return $this->definition->parent->build($data, $definition);
         }
         return null;
     }
