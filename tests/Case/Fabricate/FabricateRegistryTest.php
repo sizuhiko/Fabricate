@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Fabricate class test case
  */
 class FabricateRegistryTest extends TestCase {
-    public function setUp() {
+    public function setUp(): void {
         $adaptor = new FabricateArrayAdaptor();
         $adaptor::$definitions = [
             'Post' => (new FabricateModel('Post'))

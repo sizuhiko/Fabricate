@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FabricateContextTest extends TestCase {
 
-    public function setUp() {
+    public function setUp(): void {
         $this->Config = new FabricateConfig();
         $this->Context = new FabricateContext($this->Config);
     }

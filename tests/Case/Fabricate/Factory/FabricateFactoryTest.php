@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * FabricateFactory class test case
  */
 class FabricateFactoryTest extends TestCase {
-    public function setUp() {
+    public function setUp(): void {
         $this->model = (new FabricateModel('Post'))
             ->addColumn('id', 'integer')
             ->addColumn('author_id', 'integer', ['null' => false])
