@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Fabricate class test case
  */
 class FabricateTest extends TestCase {
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         Fabricate::clear();
         $adaptor = new FabricateArrayAdaptor();

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FabricateSequenceTest extends TestCase {
 
-    public function setUp() {
+    public function setUp(): void {
         $this->Sequence = new FabricateSequence(1);
     }
 
