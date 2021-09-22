@@ -136,7 +136,7 @@ class FabricateContext
     /**
      * Get Faker instance.
      *
-     * @return Faker\Factory
+     * @return Faker\Generator
      */
     public function faker()
     {
