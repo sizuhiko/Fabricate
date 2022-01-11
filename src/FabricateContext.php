@@ -57,7 +57,7 @@ class FabricateContext
      * @param string $name sequence name
      * @param int $start If you want to specify the starting number, you can do it with a second parameter.
      *         default value is 1.
-     * @param callback $callback If you are generating something like an email address,
+     * @param \callback|\Closure $callback If you are generating something like an email address,
      *         you can pass it a block and the block response will be returned.
      * @return mixed generated sequence
      */
